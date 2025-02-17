@@ -20,7 +20,7 @@ ansi2html  # Convertisseur ANSI vers HTML
 tifffile
 numpy
 pandas
-matplotlib.pyplot
+matplotlib
 itertools
 scikit-image
 scipy
