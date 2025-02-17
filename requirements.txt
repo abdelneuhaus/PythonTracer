@@ -19,13 +19,10 @@ ansi2html  # Convertisseur ANSI vers HTML
 # Dépendances de python-tracer
 tifffile
 numpy
-ctypes
 pandas
 matplotlib.pyplot
 itertools
 scikit-image
-math
-os
 scipy
 opencv-python
 dask
@@ -33,7 +30,6 @@ dask_image
 torch
 argparse
 copy
-datetime
 shutil
 socket
-pathlib
+
