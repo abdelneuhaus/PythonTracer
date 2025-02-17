@@ -1,6 +1,6 @@
 # Dépendances du module
 colorama    # Permet l'affichage de la couleur dans la console
-numpy       # Bibliothèque baique de python
+numpy       # Bibliothèque basique de python
 pandas      # Bibliothèque necessaire pour plotly
 
 # Dépendances pour les Tests (pytest et ses "plugins")
@@ -15,3 +15,25 @@ sphinx
 sphinx-autobuild
 sphinx-rtd-theme
 ansi2html  # Convertisseur ANSI vers HTML
+
+# Dépendances de python-tracer
+tifffile
+numpy
+ctypes
+pandas
+matplotlib.pyplot
+itertools
+scikit-image
+math
+os
+scipy
+opencv-python
+dask
+dask_image
+torch
+argparse
+copy
+datetime
+shutil
+socket
+pathlib
