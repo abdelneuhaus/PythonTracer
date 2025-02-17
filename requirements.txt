@@ -21,15 +21,9 @@ tifffile
 numpy
 pandas
 matplotlib
-itertools
 scikit-image
 scipy
 opencv-python
 dask
 dask_image
 torch
-argparse
-copy
-shutil
-socket
-
