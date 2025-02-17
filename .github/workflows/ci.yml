@@ -39,8 +39,8 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
-      ## Lancement des tests avec pytest
-      #- name: Run tests with pytest
-      #  uses: aganders3/headless-gui@v2
-      #  with:
-      #    run: python -m pytest
+      # Lancement des tests avec pytest
+      - name: Run tests with pytest
+        uses: aganders3/headless-gui@v2
+        with:
+          run: python -m pytest
