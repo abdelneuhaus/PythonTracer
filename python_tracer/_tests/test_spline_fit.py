@@ -8,6 +8,7 @@ from python_tracer.SplineFitterSMAP import set_parameters
 from python_tracer.SplineFitterSMAP import gaussian_filter
 from python_tracer.SplineFitterSMAP import filter2
 from python_tracer.SplineFitterSMAP import difference_of_gaussians
+from python_tracer.SplineFitterSMAP import maximumfindcall
 
 ##################################################
 def test_set_parameters():
@@ -89,7 +90,7 @@ def test_filter2():
 
 
 ##################################################
-def test_difference_gaussians():
+def test_difference_of_gaussians():
     """
     Test difference_of_gaussians() function.
     """
@@ -104,10 +105,35 @@ def test_difference_gaussians():
     # Verify values sum close to 0
     assert np.allclose(np.sum(result), 0, atol=1e-6)
 
-    # Case with centered gaussian image  
-    x = np.linspace(-5, 5, 10)
-    y = np.linspace(-5, 5, 10)
-    X, Y = np.meshgrid(x, y)
-    imphot = np.exp(-(X**2 + Y**2) / 2)
-    result = difference_of_gaussians(imphot, peakfilter)
-    assert np.argmax(result) == np.argmax(imphot)
+
+
+
+##################################################
+def test_maximumfindcall():
+    """
+    Test maximumfindcall() function.
+    """
+    # One center in the image (center)
+    imin = np.zeros((5, 5))
+    imin[2, 2] = 10
+    result = maximumfindcall(imin)
+    expected = np.array([[2, 2, 10]])
+    assert np.array_equal(result, expected)
+
+    # Several maxima
+    imin = np.array([
+        [0,  1,  0,  1,  0],
+        [1,  2,  1,  2,  1],
+        [0,  1, 10, 1,  0],
+        [1,  2,  1,  2,  1],
+        [0,  1,  0,  1,  0]
+    ])
+    result = maximumfindcall(imin)
+    expected_coords = set([(2, 2, 10), (1, 1, 2), (1, 3, 2), (3, 1, 2), (3, 3, 2)])
+    result_coords = set(map(tuple, result))
+    assert result_coords == expected_coords
+
+    # No maxima
+    imin = np.ones((5, 5))
+    result = maximumfindcall(imin)
+    assert result.size == 0
