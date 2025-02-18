@@ -2,6 +2,7 @@
 
 import cv2
 import numpy as np
+import scipy.io as io
 from scipy.signal import convolve2d
 
 from python_tracer.SplineFitterSMAP import set_parameters
@@ -9,6 +10,7 @@ from python_tracer.SplineFitterSMAP import gaussian_filter
 from python_tracer.SplineFitterSMAP import filter2
 from python_tracer.SplineFitterSMAP import difference_of_gaussians
 from python_tracer.SplineFitterSMAP import maximumfindcall
+
 
 ##################################################
 def test_set_parameters():
@@ -121,6 +123,22 @@ def test_maximumfindcall():
     assert np.array_equal(result, expected)
 
     # No maxima
-    imin = np.ones((5, 5))
-    result = maximumfindcall(imin)
-    assert result.size == 0
+    imin2 = np.ones((5, 5))
+    result = maximumfindcall(imin2)
+    assert result.size == 3
+
+
+
+
+##################################################
+def test_loadmat_scipy():
+    """
+    Test the loading of MAT file from SMAP
+    """
+    cal = io.loadmat("python_tracer/_tests/calib.mat") 
+    assert type(cal) == dict
+
+
+
+
+##################################################
