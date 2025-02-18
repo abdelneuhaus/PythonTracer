@@ -28,3 +28,4 @@ dask
 dask_image
 torch
 napari
+pycuda
