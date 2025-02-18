@@ -2,10 +2,12 @@
 
 import cv2
 import numpy as np
-from python_tracer.SplineFitterSMAP.set_parameters import set_parameters
-from python_tracer.SplineFitterSMAP.fspecial import gaussian_filter
-from python_tracer.SplineFitterSMAP.filter2 import filter2
+from scipy.signal import convolve2d
 
+from python_tracer.SplineFitterSMAP import set_parameters
+from python_tracer.SplineFitterSMAP import gaussian_filter
+from python_tracer.SplineFitterSMAP import filter2
+from python_tracer.SplineFitterSMAP import difference_of_gaussians
 
 ##################################################
 def test_set_parameters():
@@ -65,3 +67,47 @@ def test_gaussian_filter():
     assert np.isclose(kernel.sum(), 1, atol=1e-5), f"Kernel coefficients sum is {kernel.sum()}, expected value close to 1"
 
 
+
+
+##################################################
+def test_filter2():
+    """
+    Test filter2() function.
+    """
+    # Identity case (simple case)
+    x = np.array([[1, 2], [3, 4]])
+    b = np.array([[0, 0], [0, 1]])
+    expected = convolve2d(x, np.rot90(b, 2), mode='same')
+    assert np.allclose(filter2(b, x), expected)
+    
+    # Mean filter case
+    b = np.ones((3, 3)) / 9
+    expected = convolve2d(x, np.rot90(b, 2), mode='same')
+    assert np.allclose(filter2(b, x), expected)
+
+
+
+
+##################################################
+def test_difference_gaussians():
+    """
+    Test difference_of_gaussians() function.
+    """
+    # Test image
+    imphot = np.ones((10, 10))
+    peakfilter = 1.0
+    result = difference_of_gaussians(imphot, peakfilter)
+
+    # Shape checking
+    assert result.shape == imphot.shape
+
+    # Verify values sum close to 0
+    assert np.allclose(np.sum(result), 0, atol=1e-6)
+
+    # Case with centered gaussian image  
+    x = np.linspace(-5, 5, 10)
+    y = np.linspace(-5, 5, 10)
+    X, Y = np.meshgrid(x, y)
+    imphot = np.exp(-(X**2 + Y**2) / 2)
+    result = difference_of_gaussians(imphot, peakfilter)
+    assert np.argmax(result) == np.argmax(imphot)
