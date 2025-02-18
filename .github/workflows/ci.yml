@@ -20,7 +20,7 @@ jobs:
       fail-fast: false              # Continue les autres routines si une matrice échoue.
       matrix:                       # Définition de la matrice de test (ici, pour les 3 OS et 2 versions de python donc 6 lancements)
         platform: [windows-latest ]
-        python-version: ["3.13"]
+        python-version: ["3.11"]
 
     steps:
       # Récupération du dépot dans l'environnement

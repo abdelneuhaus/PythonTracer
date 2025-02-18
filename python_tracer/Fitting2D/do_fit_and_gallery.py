@@ -1,8 +1,8 @@
 import ctypes
-import tifffile
+import tifffile as tiff
 import os
 import numpy as np
-import skimage.io as io
+# import skimage.io as io
 
 def do_fit_and_gallery(path_stack, threshold=180.0, size_ROI_fit=7, size_ROI_crop=8, number_of_ROI_per_line=5):
     mydll = ctypes.cdll.LoadLibrary("./CPU_PALM.dll")
@@ -10,7 +10,7 @@ def do_fit_and_gallery(path_stack, threshold=180.0, size_ROI_fit=7, size_ROI_cro
     c_double_pointer = ctypes.POINTER(ctypes.c_double)
 
     # load stack + check size
-    stack = tifffile.imread(path_stack)
+    stack = tiff.imread(path_stack)
 
     # fitting parameters
     # ONLY CHANGE theresholdVal & size for now
@@ -111,4 +111,5 @@ def do_fit_and_gallery(path_stack, threshold=180.0, size_ROI_fit=7, size_ROI_cro
 
     # save TIFF file
     output_filename = "gallery_of_rois_" + os.path.basename(os.path.normpath(path_stack))
-    io.imsave(output_filename, gallery_of_rois_transposed, check_contrast=False)
+    # io.imsave(output_filename, gallery_of_rois_transposed, check_contrast=False)
+    tiff.imwrite(output_filename, gallery_of_rois_transposed, dtype=np.uint16)
