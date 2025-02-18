@@ -1,9 +1,10 @@
 # Test file for spline fitting module
 
-from SplineFitterSMAP.set_parameters import set_parameters
 import cv2
 import numpy as np
-from SplineFitterSMAP.fspecial import gaussian_filter
+# from SplineFitterSMAP.fspecial import gaussian_filter
+from python_tracer.SplineFitterSMAP import set_parameters
+from python_tracer.SplineFitterSMAP.fspecial import gaussian_filter
 
 
 ##################################################
