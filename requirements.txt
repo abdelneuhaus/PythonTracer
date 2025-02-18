@@ -27,3 +27,4 @@ opencv-python
 dask
 dask_image
 torch
+napari
