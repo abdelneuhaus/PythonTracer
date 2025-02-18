@@ -3,7 +3,8 @@
 import cv2
 import numpy as np
 from python_tracer.SplineFitterSMAP.set_parameters import set_parameters
-# from python_tracer.SplineFitterSMAP.fspecial import gaussian_filter
+from python_tracer.SplineFitterSMAP.fspecial import gaussian_filter
+from python_tracer.SplineFitterSMAP.filter2 import filter2
 
 
 ##################################################
@@ -50,17 +51,17 @@ def test_set_parameters():
 
 
 ##################################################
-# def test_gaussian_filter():
-#     """
-#     Test gaussian_filter() function.
-#     """
-#     HSIZE = 5
-#     SIGMA = 1.0
-#     kernel = gaussian_filter(HSIZE, SIGMA)
+def test_gaussian_filter():
+    """
+    Test gaussian_filter() function.
+    """
+    HSIZE = 5
+    SIGMA = 1.0
+    kernel = gaussian_filter(HSIZE, SIGMA)
 
-#     assert isinstance(kernel, np.ndarray), "Filter is not numpy array"
-#     assert kernel.shape == (HSIZE, HSIZE), f"Incorrect size : {(HSIZE, HSIZE)} expected, got {kernel.shape}"
-#     assert np.allclose(kernel, kernel.T), "Gaussian kernel non symmetrical"
-#     assert np.isclose(kernel.sum(), 1, atol=1e-5), f"Kernel coefficients sum is {kernel.sum()}, expected value close to 1"
+    assert isinstance(kernel, np.ndarray), "Filter is not numpy array"
+    assert kernel.shape == (HSIZE, HSIZE), f"Incorrect size : {(HSIZE, HSIZE)} expected, got {kernel.shape}"
+    assert np.allclose(kernel, kernel.T), "Gaussian kernel non symmetrical"
+    assert np.isclose(kernel.sum(), 1, atol=1e-5), f"Kernel coefficients sum is {kernel.sum()}, expected value close to 1"
 
 
