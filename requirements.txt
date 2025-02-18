@@ -28,6 +28,6 @@ dask
 dask_image
 torch
 napari
-cudatoolkit
-cuda
+# cudatoolkit
+# cuda
 # pycuda
