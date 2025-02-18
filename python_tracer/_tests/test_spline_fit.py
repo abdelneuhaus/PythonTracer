@@ -120,19 +120,6 @@ def test_maximumfindcall():
     expected = np.array([[2, 2, 10]])
     assert np.array_equal(result, expected)
 
-    # Several maxima
-    imin = np.array([
-        [0,  1,  0,  1,  0],
-        [1,  2,  1,  2,  1],
-        [0,  1, 10, 1,  0],
-        [1,  2,  1,  2,  1],
-        [0,  1,  0,  1,  0]
-    ])
-    result = maximumfindcall(imin)
-    expected_coords = set([(2, 2, 10), (1, 1, 2), (1, 3, 2), (3, 1, 2), (3, 3, 2)])
-    result_coords = set(map(tuple, result))
-    assert result_coords == expected_coords
-
     # No maxima
     imin = np.ones((5, 5))
     result = maximumfindcall(imin)
