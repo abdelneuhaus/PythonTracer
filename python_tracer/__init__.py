@@ -14,7 +14,7 @@ Ce sous-package contient des outils utilitaires pour le projet SampleMaker.
 """
 
 # Exemple d'importation des modules pour un accès direct
-from .SplineFitterSMAP import draw_test_section, get_color_map_by_name
+from .SplineFitterSMAP import fspecial, set_parameters
 
 # Définir la liste des symboles exportés
 __all__ = ("SplineFitterSMAP")#, "Monitoring", "Utils")
