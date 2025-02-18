@@ -4,8 +4,8 @@ import scipy.io as io
 import tifffile as tif
 from napari.utils.notifications import show_info
 
-from SplineFitterSMAP.difference_of_gaussians import difference_of_gaussians
-from SplineFitterSMAP.maximumfindcall import maximumfindcall
+from .difference_of_gaussians import difference_of_gaussians
+from .maximumfindcall import maximumfindcall
 
 def previews_splinefitter(parameters, number_frames=1):
     """

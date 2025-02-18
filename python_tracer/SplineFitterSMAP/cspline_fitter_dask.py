@@ -4,11 +4,12 @@ import dask.bag as db
 from dask_image.imread import imread
 import scipy.io as io
 
-from SplineFitterSMAP.difference_of_gaussians import difference_of_gaussians
-from SplineFitterSMAP.maximumfindcall import maximumfindcall
-from SplineFitterSMAP.fitspline import fit_spline
-from SplineFitterSMAP.save_results_python import save_results_python
-from SplineFitterSMAP.save_as_locpalmtracer import save_as_locpalmtracer
+
+from .difference_of_gaussians import difference_of_gaussians
+from .maximumfindcall import maximumfindcall
+from .fitspline import fit_spline
+from .save_results_python import save_results_python
+from .save_as_locpalmtracer import save_as_locpalmtracer
 
 
 def cspline_fitter_dask(parameters):

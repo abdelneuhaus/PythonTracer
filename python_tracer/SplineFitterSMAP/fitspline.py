@@ -1,6 +1,6 @@
 import numpy as np
 
-from SplineFitterSMAP.mleFit import mleFit_LM
+from .mleFit import mleFit_LM
 
 def fit_spline(imstack, peakcoordinates, parameters, varstack):
     """

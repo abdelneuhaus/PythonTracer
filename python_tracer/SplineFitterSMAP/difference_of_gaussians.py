@@ -1,6 +1,6 @@
 import numpy as np
-from SplineFitterSMAP.filter2 import filter2
-from SplineFitterSMAP.fspecial import gaussian_filter  # la même que votre code
+from .filter2 import filter2
+from .fspecial import gaussian_filter  # la même que votre code
 
 def difference_of_gaussians(imphot, peakfilter):
     """

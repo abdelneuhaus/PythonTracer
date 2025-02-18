@@ -10,16 +10,16 @@ from magicgui import magicgui
 from napari.utils.notifications import show_info
 from qtpy.QtWidgets import QFileDialog, QTabWidget, QWidget, QVBoxLayout
 
-from Fitting2D.do_fit_and_loc_file import do_fit_and_loc_file
-from Fitting2D.do_fit_and_gallery import do_fit_and_gallery
-from Fitting2D.parse_loc import read_locPALMTracer
-from Fitting2D.parse_track import read_trcPALMTracer
-from SplineFitterSMAP.preview_splinefitter import previews_splinefitter
-from SplineFitterSMAP.set_parameters import set_parameters
-from SplineFitterSMAP.cspline_fitter import cspline_fitter
-# from SplineFitterSMAP.cspline_fitter_dask import cspline_fitter_dask    # test
-from simulate_DECODE_stack import simulate_DECODE_stack
-from PreviewCheckButton import PreviewCheckButton
+from python_tracer.Fitting2D.do_fit_and_loc_file import do_fit_and_loc_file
+from python_tracer.Fitting2D.do_fit_and_gallery import do_fit_and_gallery
+from python_tracer.Fitting2D.parse_loc import read_locPALMTracer
+from python_tracer.Fitting2D.parse_track import read_trcPALMTracer
+from python_tracer.SplineFitterSMAP.preview_splinefitter import previews_splinefitter
+from python_tracer.SplineFitterSMAP.set_parameters import set_parameters
+from python_tracer.SplineFitterSMAP.cspline_fitter import cspline_fitter
+# from python_tracer.SplineFitterSMAP.cspline_fitter_dask import cspline_fitter_dask    # test
+from python_tracer.utils.simulate_DECODE_stack import simulate_DECODE_stack
+from python_tracer.utils.PreviewCheckButton import PreviewCheckButton
 
 
 path_stack = None
