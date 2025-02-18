@@ -16,10 +16,8 @@ sphinx-autobuild
 sphinx-rtd-theme
 ansi2html  # Convertisseur ANSI vers HTML
 
-# Dépendances de python-tracer
+# Dépendances de python-tracer installées avec pip
 tifffile
-numpy
-pandas
 matplotlib
 scikit-image
 scipy
@@ -28,6 +26,26 @@ dask
 dask_image
 torch
 napari
-# cudatoolkit
-# cuda
-# pycuda
+pycuda
+deprecated
+h5py
+line_profiler
+pyyaml
+seaborn
+scikit-learn
+tqdm
+pyqt5
+tensorboard
+cmake   # to build spline (decode module)
+ninja   # to build spline (decode module)
+bump2version
+pybind11
+
+# cmake -S ../cpp_cuda_c -B build ^
+#      -DPython_EXECUTABLE="C:\Git\PythonTracer\venv\Scripts\python.exe" ^
+#      -Dpybind11_DIR="C:\Git\PythonTracer\venv\Lib\site-packages\pybind11\share\cmake\pybind11" ^
+#      -G "Visual Studio 17 2022"
+# python setup.py bdist_wheel (cd SplinePSF/python)
+# pip install dist\spline-0.10.1.dev0-cp313-cp313-win_amd64.whl --force-reinstall
+# sinon drag&drop le fichier
+

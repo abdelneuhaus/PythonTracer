@@ -1,0 +1,41 @@
+package:
+  name: spline
+  version: "0.10.1dev0"
+
+source:
+     - path: ../../..
+
+build:
+  number: 1
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - python
+    - cmake =3.15
+    - ninja
+    - setuptools
+
+  host:
+    - python
+    - numpy {{ numpy }}
+    - pybind11 >=2.6.1
+    - cudatoolkit-dev # [linux]
+
+  run:
+    - python
+    - {{ pin_compatible('numpy', max_pin='x.x') }}
+
+  test:
+      requires:
+        - pytest
+      source-files:
+        - python/test/test_basic.py
+      commands:
+        - pytest -s python/test/test_basic.py
+
+about:
+    home: https://rieslab.de
+    summary: "Cubic Spline PSF Implementation"
+    description: "Tbd."

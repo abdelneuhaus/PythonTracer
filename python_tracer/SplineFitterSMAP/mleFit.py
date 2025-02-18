@@ -6,7 +6,7 @@ import pycuda.autoinit  # initialise CUDA, crée un contexte par défaut. Ne pas
 from napari.utils.notifications import show_info
 
 # # Load the DLL
-mydll = ctypes.cdll.LoadLibrary("./GPUmleFit.dll")
+mydll = ctypes.cdll.LoadLibrary("./python_tracer/utils/GPUmleFit.dll")
 
 # Define constants from definitions.h
 BSZ = 64
