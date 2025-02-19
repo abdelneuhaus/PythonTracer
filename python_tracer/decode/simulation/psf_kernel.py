@@ -391,23 +391,23 @@ class CubicSplinePSF(PSF):
         Init the spline implementation. Done seperately because otherwise it's harder to pickle
 
         """
-        if 'cuda' in self._device:
-            if self._device_ix is None:
-                device_ix = 0
-            else:
-                device_ix = self._device_ix
+        # if 'cuda' in self._device:
+        #     if self._device_ix is None:
+        #         device_ix = 0
+        #     else:
+        #         device_ix = self._device_ix
 
-            self._spline_impl = spline.PSFWrapperCUDA(self._coeff.shape[0], self._coeff.shape[1],
-                                                      self._coeff.shape[2],
-                                                      self.roi_size_px[0], self.roi_size_px[1],
-                                                      self._coeff.numpy(), device_ix)
-        elif 'cpu' == self._device:
-            self._spline_impl = spline.PSFWrapperCPU(self._coeff.shape[0], self._coeff.shape[1],
-                                                     self._coeff.shape[2],
-                                                     self.roi_size_px[0], self.roi_size_px[1],
-                                                     self._coeff.numpy())
-        else:
-            raise ValueError(f"Unsupported device ({self._device} has been set.")
+        #     self._spline_impl = spline.PSFWrapperCUDA(self._coeff.shape[0], self._coeff.shape[1],
+        #                                               self._coeff.shape[2],
+        #                                               self.roi_size_px[0], self.roi_size_px[1],
+        #                                               self._coeff.numpy(), device_ix)
+        # elif 'cpu' == self._device:
+        self._spline_impl = spline.PSFWrapperCPU(self._coeff.shape[0], self._coeff.shape[1],
+                                                self._coeff.shape[2],
+                                                self.roi_size_px[0], self.roi_size_px[1],
+                                                self._coeff.numpy())
+        # else:
+        #     raise ValueError(f"Unsupported device ({self._device} has been set.")
 
     def sanity_check(self):
         """

@@ -8,8 +8,8 @@ import subprocess
 
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
-# from distutils.version import LooseVersion
-from packaging.version import parse as LooseVersion
+from distutils.version import LooseVersion
+
 
 class CMakeExtension(Extension):
     def __init__(self, name, sourcedir=''):
@@ -27,7 +27,7 @@ class CMakeBuild(build_ext):
 
         if platform.system() == "Windows":
             cmake_version = LooseVersion(re.search(r'version\s*([\d.]+)', out.decode()).group(1))
-        if cmake_version < LooseVersion("3.1.0"):
+            if cmake_version < '3.1.0':
                 raise RuntimeError("CMake >= 3.1.0 is required on Windows")
 
         for ext in self.extensions:
@@ -39,6 +39,7 @@ class CMakeBuild(build_ext):
             # conda build has this variable available
             py_ver = ".".join(env["PY_VER"].split())
         else:
+            # pip build does not
             import sys
             py_ver = sys.version[:3]
 
@@ -46,33 +47,25 @@ class CMakeBuild(build_ext):
 
         cfg = 'Debug' if self.debug else 'Release'
         build_args = ['--config', cfg]
-        cmake_args = ['-DCMAKE_BUILD_TYPE=' + cfg,
-                    '-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
-                    '-DPYBIND11_PYTHON_VERSION=' + py_ver,
-                    '-DPython_EXECUTABLE=' + sys.executable,
-                    "-G", "Visual Studio 17 2022", "-A", "x64"]
-
-        # Ajout de l'emplacement de pybind11
-        try:
-            import pybind11
-            pybind11_dir = pybind11.get_cmake_dir()
-            cmake_args += ['-Dpybind11_DIR=' + pybind11_dir]
-        except ImportError:
-            raise RuntimeError("pybind11 is not installed. Please install it via pip.")
+        cmake_args = ['-DCMAKE_BUILD_TYPE=' + cfg]
+        cmake_args += ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir]
+        if "CONDA_BUILD" in env:
+            cmake_args += [f'-DPython_EXECUTABLE={env["PYTHON"]}']
+        cmake_args += [f'-DPYBIND11_PYTHON_VERSION={py_ver}']
+        cmake_args += ["-GNinja"]
 
         env['CXXFLAGS'] = '{} -DVERSION_INFO=\\"{}\\"'.format(env.get('CXXFLAGS', ''),
-                                                            self.distribution.get_version())
+                                                              self.distribution.get_version())
         if not os.path.exists(self.build_temp):
             os.makedirs(self.build_temp)
         subprocess.check_call(['cmake', ext.sourcedir] + cmake_args, cwd=self.build_temp, env=env)
         subprocess.check_call(['cmake', '--build', '.'] + build_args, cwd=self.build_temp)
 
 
-
 setup(
     name='spline',
     version='0.10.1dev0',
-    packages=[],  # ou listez uniquement les packages utiles (excluant 'spline')
+    packages=setuptools.find_packages(),
     ext_modules=[CMakeExtension('spline', '../cpp_cuda_c')],
     cmdclass=dict(build_ext=CMakeBuild),
     include_package_data=True,

@@ -1,7 +1,13 @@
+# pytorch
+--index-url https://download.pytorch.org/whl/cu126
+torch
+torchvision
+torchaudio
+
 # Dépendances du module
-colorama    # Permet l'affichage de la couleur dans la console
-numpy       # Bibliothèque basique de python
-pandas      # Bibliothèque necessaire pour plotly
+colorama      # Permet l'affichage de la couleur dans la console
+numpy         # Bibliothèque basique de python
+pandas        # Bibliothèque nécessaire pour plotly
 
 # Dépendances pour les Tests (pytest et ses "plugins")
 pytest
@@ -14,7 +20,7 @@ pytest-metadata
 sphinx
 sphinx-autobuild
 sphinx-rtd-theme
-ansi2html  # Convertisseur ANSI vers HTML
+ansi2html     # Convertisseur ANSI vers HTML
 
 # Dépendances de python-tracer installées avec pip
 tifffile
@@ -24,7 +30,6 @@ scipy
 opencv-python
 dask
 dask_image
-torch
 napari
 pycuda
 deprecated
@@ -36,16 +41,17 @@ scikit-learn
 tqdm
 pyqt5
 tensorboard
-cmake   # to build spline (decode module)
-ninja   # to build spline (decode module)
+cmake         # Pour compiler spline (module decode)
+ninja         # Pour compiler spline (module decode)
 bump2version
 pybind11
 
+# Commandes complémentaires :
 # cmake -S ../cpp_cuda_c -B build ^
 #      -DPython_EXECUTABLE="C:\Git\PythonTracer\venv\Scripts\python.exe" ^
 #      -Dpybind11_DIR="C:\Git\PythonTracer\venv\Lib\site-packages\pybind11\share\cmake\pybind11" ^
 #      -G "Visual Studio 17 2022"
-# python setup.py bdist_wheel (cd SplinePSF/python)
+#
+# python setup.py bdist_wheel (depuis le dossier SplinePSF/python)
 # pip install dist\spline-0.10.1.dev0-cp313-cp313-win_amd64.whl --force-reinstall
-# sinon drag&drop le fichier
-
+# Sinon, drag & drop le fichier

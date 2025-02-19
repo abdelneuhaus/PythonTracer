@@ -4,5 +4,3 @@ def test_basic():
 
     print(f"Spline CUDA compiled: {spline.cuda_compiled}")
     print(f"Spline CUDA is available: {spline.cuda_is_available()}")
-
-test_basic()

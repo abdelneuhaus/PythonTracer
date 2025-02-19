@@ -230,7 +230,7 @@ def photons_colored_vizualisation():
 
 
 # Simulation of SMLM stack
-@magicgui(call_button="Simulate 3D SMLM Data")
+@magicgui(call_button="Simulate 3D SMLM Data (CPU but fast)")
 def do_simulation_DECODE(Baseline=498.0,
                         e_per_ADU=3.6,
                         EM_gain=300,
@@ -242,10 +242,10 @@ def do_simulation_DECODE(Baseline=498.0,
                         Image_SizeXY=256,
                         Z_Range_nm=2000,
                         Frames_Number=10000,
-                        Intensity=13000,
-                        Intensity_sd=1000,
-                        Avg_Emitter_per_Frames=15,
-                        Lifetime=4,
+                        Intensity=10000,
+                        Intensity_sd=1500,
+                        Avg_Emitter_per_Frames=10,
+                        Lifetime=3,
                         Output='3DSMLM_simulation'):
     global mat_file
     if mat_file == None:

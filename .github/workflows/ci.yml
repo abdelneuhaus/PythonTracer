@@ -44,3 +44,10 @@ jobs:
         uses: aganders3/headless-gui@v2
         with:
           run: python -m pytest
+
+      # Upload du test sur codecov.io (nécessite l'ajout d'une variable secrète)
+      - name: Upload coverage report to Codecov
+        if: matrix.platform == 'windows-latest' && matrix.python-version == '3.13'
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
