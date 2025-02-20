@@ -96,7 +96,7 @@ def save_as_locpalmtracer(image_size, results, parameters, outputfile_name='resu
     localization_pt['CRLB_Z(um)'] = list((resultstable['crlb_z']*parameters['pixelsize']/1000))
     localization_pt['logLikelyhood(um)'] = list(resultstable['logLikelyhood'])
 
-    save_path = os.path.basename(os.path.normpath(parameters['imagefile'])).replace("tif","PT")+ "/locPALMTracer.txt"
+    save_path = "./results/" +os.path.basename(os.path.normpath(parameters['imagefile'])).replace("tif","PT")+ "/locPALMTracer.txt"
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
     with open(save_path, 'w', newline='') as file:

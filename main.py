@@ -18,8 +18,8 @@ from python_tracer.Fitting2D.parse_loc import read_locPALMTracer
 from python_tracer.Fitting2D.parse_track import read_trcPALMTracer
 from python_tracer.SplineFitterSMAP.preview_splinefitter import previews_splinefitter
 from python_tracer.SplineFitterSMAP.set_parameters import set_parameters
-from python_tracer.SplineFitterSMAP.cspline_fitter import cspline_fitter
-# from python_tracer.SplineFitterSMAP.cspline_fitter_dask import cspline_fitter_dask    # test
+# from python_tracer.SplineFitterSMAP.cspline_fitter import cspline_fitter
+from python_tracer.SplineFitterSMAP.cspline_fitter_dask import cspline_fitter_dask    # test
 from python_tracer.utils.simulate_DECODE_stack import simulate_DECODE_stack
 from python_tracer.utils.PreviewCheckButton import PreviewCheckButton
 
@@ -146,21 +146,20 @@ def preview_before_localization(Offset=498,
             plt.ioff()  # Deactivate interactive mode
             plt.show()
         plt.close()
+    else:
+        show_info("Load stack AND PSF calibration.")
     return parameters
 
 
 @magicgui(call_button="Launch Spline Fitter")
-def run_spline_fitter(OutputFile='outputSMAP'):
+def run_spline_fitter():
     global parameters
-    output_file = "./"+OutputFile+".csv"
     if path_stack and mat_file:
         if parameters == None:
             show_info(f'Default parameters used. Run Preview once.')
-            parameters = set_parameters(path_stack, mat_file, 498, 0.12, 1.2, 15, 13, output_file, 160)
-        parameters['outputfile'] = output_file
+            parameters = set_parameters(path_stack, mat_file, 498, 0.12, 1.2, 15, 13, parameters['outputfile'], 160)
         start_time = time.time()
-        # cspline_fitter_dask(parameters)
-        cspline_fitter(parameters)
+        cspline_fitter_dask(parameters)
         show_info(f"Fitting completed in {np.round(time.time() - start_time, 3)} seconds")
     else:
         show_info(f'Load both the stack and the PSF model first please.')

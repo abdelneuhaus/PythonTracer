@@ -5,9 +5,6 @@ import pycuda.driver as cuda
 import pycuda.autoinit  # initialise CUDA, crée un contexte par défaut. Ne pas supprimer.
 from napari.utils.notifications import show_info
 
-# # Load the DLL
-mydll = ctypes.cdll.LoadLibrary("./python_tracer/utils/GPUmleFit.dll")
-
 # Define constants from definitions.h
 BSZ = 64
 NK = 128
@@ -40,7 +37,7 @@ def mleFit_LM(imstack, iterations, fitpar, varmap, zstart):
         LogLike_host (np.ndarray): Log likelihood
     
     DLL compilation in Admin VISUAL STUDIO terminal:
-    nvcc -ccbin "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64" -shared -o GPUmleFit.dll wrapper.cu GPUmleFit_LM_EMCCD.cu GPUmleFit_LM_sCMOS.cu -Xcompiler "/MD" -Xlinker "/NODEFAULTLIB:LIBCMT"
+    nvcc -ccbin "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64" -shared -o GPUmleFit.dll wrapper.cu GPUmleFit_LM_EMCCD.cu GPUmleFit_LM_sCMOS.cu -Xcompiler "/MD" -Xlinker "/NODEFAULTLIB:LIBCMT"
     Requires Visual Studio 22 installed
     """
     
@@ -71,7 +68,7 @@ def mleFit_LM(imstack, iterations, fitpar, varmap, zstart):
     LogLike_ptr    = ctypes.c_void_p(int(LogLike_dev))
 
     # DLL path
-    mydll = ctypes.cdll.LoadLibrary("./GPUmleFit.dll")
+    mydll = ctypes.cdll.LoadLibrary("./python_tracer/utils/GPUmleFit.dll")
 
     # Wrapper function for the kernel
     mydll.kernel_splineMLEFit_z_EMCCD_wrapper.argtypes = [

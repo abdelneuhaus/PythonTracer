@@ -33,11 +33,22 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+
+      # Installation de CUDA
+      - name: Install Cuda for DLLs
+        uses: Jimver/cuda-toolkit@v0.2.21
+        id: cuda-toolkit
+        with:
+          cuda: '12.6'
+
       # Installation des dépendances du projet
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install pycuda
+          pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
           python -m pip install -r requirements.txt
+
 
       # Lancement des tests avec pytest
       - name: Run tests with pytest

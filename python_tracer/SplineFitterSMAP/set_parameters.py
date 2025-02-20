@@ -1,3 +1,5 @@
+import os
+
 def set_parameters(stack_path, 
                    calib_file, 
                    offset=None, 
@@ -23,6 +25,8 @@ def set_parameters(stack_path,
         parameters: dictionary containing the parameters.
         Some parameters are irrelevant for the spline fitter (raw translation of Matlab code).
     """
+    if not os.path.isdir("results/"):
+        os.makedirs("results/")
     parameters = {}
     parameters["imagefile"] = stack_path
     parameters["calibfile"] = calib_file
@@ -34,7 +38,7 @@ def set_parameters(stack_path,
     parameters["bidirectional"] = 0
     parameters["mirror"] = 0
     parameters["status"] = []
-    parameters["outputfile"] = outputfile
+    parameters["outputfile"] = "results/"+os.path.basename(os.path.normpath(parameters['imagefile'])).replace("tif","csv")
     parameters["outputformat"] = 'csv'
     parameters["pixelsize"] = pixelsize
     parameters["loader"] = 1
