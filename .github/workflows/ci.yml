@@ -39,7 +39,6 @@ jobs:
         id: cuda-toolkit
         with:
           cuda: '12.6.0'
-        run: nvcc --version
 
       # Installation des dépendances du projet
       - name: Install dependencies
