@@ -12,14 +12,14 @@ from qtpy.QtWidgets import QFileDialog, QTabWidget, QWidget, QVBoxLayout
 
 from python_tracer.Fitting2D.do_fit_and_loc_file import do_fit_and_loc_file
 
-# from python_tracer import do_fit_and_loc_file
+from python_tracer.Fitting2D.do_fit_and_loc_file import do_fit_and_loc_file
 from python_tracer.Fitting2D.do_fit_and_gallery import do_fit_and_gallery
 from python_tracer.Fitting2D.parse_loc import read_locPALMTracer
 from python_tracer.Fitting2D.parse_track import read_trcPALMTracer
 from python_tracer.SplineFitterSMAP.preview_splinefitter import previews_splinefitter
 from python_tracer.SplineFitterSMAP.set_parameters import set_parameters
 # from python_tracer.SplineFitterSMAP.cspline_fitter import cspline_fitter
-from python_tracer.SplineFitterSMAP.cspline_fitter_dask import cspline_fitter_dask    # test
+from python_tracer.SplineFitterSMAP.cspline_fitter_dask import cspline_fitter_dask
 from python_tracer.utils.simulate_DECODE_stack import simulate_DECODE_stack
 from python_tracer.utils.PreviewCheckButton import PreviewCheckButton
 
@@ -205,9 +205,9 @@ def photons_colored_vizualisation():
         show_info(f'File selected.')
         df = pd.read_csv(
             output_file,
-            sep=r'\s+',          # ou sep='\t' si c’est clairement des tabulations
-            engine='python',     # parfois utile pour gérer les espaces multiples
-            header=0             # indique que la première ligne est l’en-tête
+            sep=r'\s+',
+            engine='python',
+            header=0
         )
         x = df['x_nm'].values
         y = df['y_nm'].values
