@@ -1,9 +1,3 @@
-# pytorch
---index-url https://download.pytorch.org/whl/cu126
-torch
-torchvision
-torchaudio
-
 # Dépendances du module
 colorama      # Permet l'affichage de la couleur dans la console
 numpy         # Bibliothèque basique de python
@@ -31,7 +25,6 @@ opencv-python
 dask
 dask_image
 napari
-pycuda
 deprecated
 h5py
 line_profiler
@@ -45,6 +38,14 @@ cmake         # Pour compiler spline (module decode)
 ninja         # Pour compiler spline (module decode)
 bump2version
 pybind11
+
+# pytorch
+--index-url https://download.pytorch.org/whl/cu126
+torch
+torchvision
+torchaudio
+pycuda
+
 
 # Commandes complémentaires :
 # cmake -S ../cpp_cuda_c -B build ^
