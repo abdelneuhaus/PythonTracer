@@ -9,13 +9,14 @@ from .maximumfindcall import maximumfindcall
 
 def previews_splinefitter(parameters, number_frames=1):
     """
-    Cspline fitter. Reference: https://github.com/jries/fit3Dcspline/blob/master/simplefitter_cspline.m
-
+    Preview function. From parameters, detect ROIs and show in live a red for on top of each detected spots.
     Args:
         parameters (dict): dictionary from parameters (SMAP output file)
-
+        number_frames: int, number of frames to use for preview
     Returns:
-        None
+        img: 
+        stock_imphot: 
+        stock_maxgood: 
     """
 
     if parameters['calibfile']:

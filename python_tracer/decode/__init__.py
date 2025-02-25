@@ -18,6 +18,7 @@ import python_tracer.decode.plot
 import python_tracer.decode.renderer
 import python_tracer.decode.simulation
 from python_tracer.decode.generic.emitter import EmitterSet, RandomEmitterSet, CoordinateOnlyEmitter
+from python_tracer.utils.libs import spline
 
 # check device capability
 import torch

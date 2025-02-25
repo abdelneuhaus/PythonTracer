@@ -4,7 +4,11 @@ from itertools import groupby
 
 def from_plane_to_index(planes):
     """
-    From planes list, it will generates index list
+    This function generates index list from list of plane
+    Args:
+        Planes: array of int
+    Returns:
+        transformed_list: list of int
     
     eg: [1, 1, 1, 1, 2, 2, 2, 3, 3, 4, 4, 4, 5, 5]
     Out [1, 2, 3, 4, 1, 2, 3, 1, 2, 1, 2, 3, 1, 2]
@@ -19,6 +23,19 @@ def from_plane_to_index(planes):
 
 
 def fill_locPALMTracer_file(image_size, planes, centroids, sigmasX, sigmasY, integrated_intensity):
+    """
+    This function initializes and fills two dict() compatible with PALMTracer file format
+    Args:
+        image_size: return of np.shape, (z, y, x) format
+        planes: int, number of planes (image_size[0])
+        centroids: arrays of (float, float), molecules coordinates
+        sigmasX: arrays of float, sigmaX values
+        sigmasY: arrays of float, sigmaY values
+        integrated_intensity: arrays of float, integrated intensity values
+    Returns:
+        metadata_pt: dictionnary containing PALMTracer file future header
+        localization_pt: dictionnary containing PALMTracer file future content
+    """
     # header of locPALMTracer file
     metadata_pt = pd.DataFrame(columns=['Width', 'Height', 'nb_Planes', 'nb_Points', 
                                     'Pixel_Size(um)', 'Frame_Duration(s)', 'Gaussian_Fit', 'Spectral'])

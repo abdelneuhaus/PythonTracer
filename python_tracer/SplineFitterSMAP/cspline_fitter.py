@@ -17,7 +17,7 @@ def cspline_fitter(parameters, preview=False):
 
     Args:
         parameters (dict): dictionary from parameters (SMAP output file)
-
+        preview (bool): don't use
     Returns:
         None
     """

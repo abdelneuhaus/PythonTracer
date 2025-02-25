@@ -5,6 +5,17 @@ import numpy as np
 # import skimage.io as io
 
 def do_fit_and_gallery(path_stack, threshold=180.0, size_ROI_fit=7, size_ROI_crop=8, number_of_ROI_per_line=5):
+    """
+    This function does a Gaussian fit, crop detected PSFs, creates a gallery of ROIs and save it as well as localizations file.
+    Args:
+        path_stack: str, path of data
+        threshold: float, threshold used for the gaussian fitting
+        size_ROI_fit: int, size of the ROI (nxn) for PSF detection for the gaussian fitting
+        size_ROI_crop: int, size of the ROI (nxn) for PSF cropping and gallery making
+        number_of_ROI_per_line: int, number of ROIs per line in the gallery of PSFs
+    Returns:
+        None
+    """
     mydll = ctypes.cdll.LoadLibrary("./python_tracer/utils/CPU_PALM.dll")
     c_short_pointer = ctypes.POINTER(ctypes.c_ushort)
     c_double_pointer = ctypes.POINTER(ctypes.c_double)

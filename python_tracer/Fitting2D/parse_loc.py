@@ -3,11 +3,11 @@ import pandas as pd
 def read_locPALMTracer(file):
     """
     Parse locPALMTracer text file.
-    Input: locPALMTracer file pathway
-    Output: pd.Dataframe for locs file and list of loc coordinates
-    
-    Only read locPALMTracer.txt
-    Skip header: only read localization data
+    Args: 
+        file: str, locPALMTracer file pathway
+    Returns
+        data: pd.Dataframe for locs file
+        coordinates: list of loc coordinates
     """
     data = pd.read_csv(file, sep="\t", skiprows=2)
     data["id"] = [int(i) for i in data["id"]]

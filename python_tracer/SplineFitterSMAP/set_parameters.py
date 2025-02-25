@@ -10,7 +10,8 @@ def set_parameters(stack_path,
                    outputfile='./outputSMAP.csv', 
                    pixelsize=160):
     """
-    Set the parameters for the spline fitter.
+    Set the parameters for the spline fitter. Some parameters are irrelevant for the spline fitter (raw translation of Matlab code).
+
     Args:
         stack_path: path to the stack file
         calib_file: path to the calibration file
@@ -19,11 +20,10 @@ def set_parameters(stack_path,
         peakfilter: peak filter size of gaussian filter
         peakcutoff: peak cutoff value
         roifit: ROI size around the peak
-        outputfile: output file path
+        outputfile: output file path (need to be removed)
         pixelsize: pixel size in nm
     Returns: 
         parameters: dictionary containing the parameters.
-        Some parameters are irrelevant for the spline fitter (raw translation of Matlab code).
     """
     if not os.path.isdir("results/"):
         os.makedirs("results/")

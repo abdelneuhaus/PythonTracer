@@ -24,13 +24,13 @@ class Dim3(ctypes.Structure):
 
 def mleFit_LM(imstack, iterations, fitpar, varmap, zstart):
     """ 
-    MLE fit using GPU
+    MLE fit using GPU adapted from https://github.com/jries/SMAP/blob/master/fit3Dcspline/source/GPUmleFit_LM_SingleChannel/GPUmleFit_LM/mexFunction.cpp
     Args:
         imstack (np.ndarray): 3D image stack
         iterations (int): number of iterations
         fitpar (np.ndarray): parameters
-        varmap (np.ndarray): variance map if sCMOS, else no used
-        zstart (float): starting z value
+        varmap (np.ndarray): variance map if sCMOS, else not used
+        zstart (float): starting z (depth) value
     Returns:
         Parameters_host (np.ndarray): parameters
         CRLBs_host (np.ndarray): CRLBs

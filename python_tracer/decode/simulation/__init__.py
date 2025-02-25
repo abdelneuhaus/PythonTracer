@@ -10,4 +10,4 @@ from . import background, noise_distributions, camera, emitter_generator, psf_ke
 
 from .simulator import Simulation
 from .structure_prior import RandomStructure
-from ...utils import libs
+from python_tracer.utils.libs import spline

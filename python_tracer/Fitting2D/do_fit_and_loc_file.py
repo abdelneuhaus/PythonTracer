@@ -7,8 +7,13 @@ from .create_locPALMTracer import fill_locPALMTracer_file
 
 def do_fit_and_loc_file(path_stack, threshold=180.5, size_ROI_fit=7):
     """
-    Do fitting and save output in the same repertory as path_stack.
-    Input: path_stack (pathway of tif file), threshold, size_ROi_fit (size of crop for fitting) 
+    This function does a Gaussian fit and save the output as a PALMTracer-like localizations file.
+    Args:
+        path_stack: str, path of data
+        threshold: float, threshold used for the gaussian fitting
+        size_ROI_fit: int, size of the ROI (nxn) for PSF detection for the gaussian fitting
+    Returns:
+        None
     """
     mydll = ctypes.cdll.LoadLibrary("./python_tracer/utils/CPU_PALM.dll")
     c_short_pointer = ctypes.POINTER(ctypes.c_ushort)

@@ -11,7 +11,7 @@ def fit_spline(imstack, peakcoordinates, parameters, varstack):
         parameters (dict): parameters dictionary
         varstack (np.ndarray): variance map if sCMOS camera. Else, 0 or None.
     Returns:
-        np.ndarray: results of the spline fitting
+        results: np.ndarray, results of the spline fitting
     """
     z0 = 0
     zstart = 0

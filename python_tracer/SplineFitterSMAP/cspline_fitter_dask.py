@@ -13,41 +13,23 @@ from .save_as_locpalmtracer import save_as_locpalmtracer
 
 def cspline_fitter_dask(parameters):
     """
-    Cette fonction lit un gros stack TIFF en mode lazy via Dask,
-    détecte les PSFs (maxima locaux), extrait les ROIs, puis réalise
-    un fit spline 3D et sauvegarde les résultats.
-
-    Parameters
-    ----------
-    parameters : dict
-        Dictionnaire contenant les paramètres nécessaires :
-        - imagefile : str (chemin vers le TIFF)
-        - calibfile : str (chemin vers le .mat de calibration 3D)
-        - offset : float (valeur de l'offset caméra)
-        - conversion : float (gain, pixels -> photons)
-        - peakfilter : float (sigma utilisé pour le Difference of Gaussians)
-        - peakcutoff : float (seuil d'intensité pour valider un pic)
-        - roifit : int (taille du ROI, ex: 13 => ROI de 13x13)
-        - outputfile : str (nom de fichier de sortie)
-        - (Optionnel) dx, dz, z0, coeff : si vous avez déjà calibré
+    This function reads the stack in lazy mode via Dask. It detects PSFs, extracts ROIs, performs spline fit and saves the results
+    Args:
+    parameters : dict, parameters required for spline fitting.
     """
 
-  
-
-    # Lecture "lazy" du stack TIFF via dask-image
-    # arr aura la forme (Nframes, height, width), mais pas chargé en RAM d'un coup.
-    arr = imread(parameters['imagefile'])  
+    # Lazy reading of stack
+    arr = imread(parameters['imagefile'])   # shape is (t, y, x)
     nframes = arr.shape[0]
 
-    # Calcule dx = rayon du ROI (ex: roifit=13 => dx=6)
+    # Compute ROI radius
     parameters['dx'] = math.floor(parameters['roifit'] / 2)
 
-    # Lecture du fichier de calibration 3D (si indiqué)
+    # Read matlab calibration file
     parameters['isspline'] = True
     if parameters.get('calibfile', None):
         try:
             cal = io.loadmat(parameters['calibfile'])
-            # On suppose que 'SXY.cspline.dz', 'SXY.cspline.z0', 'SXY.cspline.coeff' existent
             parameters['dz'] = cal['SXY']['cspline'][0,0]['dz'][0][0][0][0]
             parameters['z0'] = cal['SXY']['cspline'][0,0]['z0'][0][0][0][0]
             coeff = cal['SXY']['cspline'][0,0]['coeff'][0][0][0][0]
@@ -62,30 +44,29 @@ def cspline_fitter_dask(parameters):
         parameters['isspline'] = False
 
 
-    # Définition d'une fonction locale pour traiter UNE frame :
-    #    - Conversion photons
-    #    - Filtre DoG
-    #    - Détection maxima
-    #    - Extraction sub-ROIs
+    # Define local function to handle ONE frame (conversion in photon, DoG filter, maxima detection and ROIs extraction)
     def detect_subimages_one_frame(i):
         """
-        Détecte et extrait les ROIs de la frame d'indice i.
-        Retourne : (subimages, peakcoords) pour cette frame
+        This function detects and extracts ROI of i-th frame.
+        Args:
+            i: int, frame index
+        Returns:
+            subimages: array, ROIs
+            peakcoords: array, coordinates
         """
-        # On force l'évaluation lazy -> numpy array en RAM
         frame_data = arr[i].compute()
         size_img = frame_data.shape
 
         # Conversion offset/gain
         imphot = (frame_data.astype(np.float32) - parameters['offset']) * parameters['conversion']
 
-        # Filtre Difference of Gaussians
+        # Difference of Gaussians
         impf = difference_of_gaussians(imphot, parameters['peakfilter'])
 
-        # Recherche de maxima
+        # Search maxima
         maxima = maximumfindcall(impf)
 
-        # Filtre par le seuil d'intensité et par les bords
+        # Filtering with threshold and if near a border
         dx = parameters['dx']
         indmgood = (
             (maxima[:, 2] > parameters['peakcutoff']) &
@@ -94,7 +75,7 @@ def cspline_fitter_dask(parameters):
         )
         maxgood = maxima[indmgood, :]
 
-        # Extraction des ROIs
+        # ROIs extraction
         subimages_frame = []
         peakcoords_frame = []
         for k in range(maxgood.shape[0]):
@@ -111,12 +92,12 @@ def cspline_fitter_dask(parameters):
 
         return subimages_frame, peakcoords_frame
 
-    # Création d'un Dask Bag pour itérer sur toutes les frames [0..nframes-1]
-    # On map la fonction detect_subimages_one_frame sur chaque indice de frame.
+    
+    # Creation of a Dask bag to iterate over all the frames. Mapping of detect_subimages_one_frames over each index
     bag = db.from_sequence(range(nframes), partition_size=50)
-    results = bag.map(detect_subimages_one_frame).compute()  # déclenche la parallélisation
+    results = bag.map(detect_subimages_one_frame).compute()  # Actual parallelization
 
-    # On concatène tous les subimages et peakcoords de toutes les frames
+    # Concatenate all ROIs and coordinates
     all_subimages = []
     all_peakcoords = []
     for (subimgs, coords) in results:
@@ -130,26 +111,18 @@ def cspline_fitter_dask(parameters):
         print("Aucune localisation détectée. Fin du script.")
         return
 
-    # Empilage en un seul tableau 3D : shape = (roifit, roifit, nb_spots)
+    # Stack everything in 3D array (roifit, roifit, nb_detections)
     img_stack = np.stack(all_subimages, axis=2).astype(np.float32)
     peak_coordinates = np.array(all_peakcoords, dtype=np.float32)
 
-    # Ici, varstack=0 si pas de bruit sCMOS particulier
-    varstack = 0
-
-    # Fit spline selon la calibration
+    varstack = 0    # not sCMOS camera
     if parameters['isspline']:
         print("Lancement du fit spline 3D.")
     else:
         print("Lancement d'un fit (gaussien par ex.) - pas implémenté ici.")
     
-    # On suppose que vous appelez quand même fit_spline (qui gère le mode Gauss si 'isspline' = False ?)
     resultsh = fit_spline(img_stack, peak_coordinates, parameters, varstack)
 
-    # Sauvegarde des résultats
     save_results_python(resultsh, parameters, output_filename=parameters["outputfile"])
-    
-    # Sauvegarde style locpalmtracer
     save_as_locpalmtracer((arr.shape[1], arr.shape[2]), resultsh, parameters, parameters["outputfile"])
-
     print("Fit terminé et résultats sauvegardés. Fin de la fonction.")

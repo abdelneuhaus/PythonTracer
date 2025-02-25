@@ -3,19 +3,13 @@ from scipy.signal import convolve2d
 
 def filter2(b, x, shape='same'):
     """
-    Two-dimensional digital filter.
-    
-    Parameters:
-    b : ndarray
-        The 2-D FIR filter.
-    x : ndarray
-        The input data to filter.
-    shape : {'same', 'valid', 'full'}, optional
-        Defines the size of the output, default is 'same'.
-    
+    Two-dimensional digital filter. Adapted from 
+    Args:
+        b : ndarray, the 2-D FIR filter
+        x : ndarray, input data to filter.
+        shape : {'same', 'valid', 'full'}, optional
     Returns:
-    y : ndarray
-        The filtered data.
+        y : ndarray, filtered data.
     """
     
     # Ensure that the inputs are floats

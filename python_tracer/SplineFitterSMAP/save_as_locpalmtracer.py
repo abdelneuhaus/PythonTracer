@@ -7,7 +7,11 @@ from itertools import groupby
 
 def from_plane_to_index(planes):
     """
-    From planes list, it will generates index list
+    This function generates index list from list of plane
+    Args:
+        Planes: array of int
+    Returns:
+        transformed_list: list of int
     
     eg: [1, 1, 1, 1, 2, 2, 2, 3, 3, 4, 4, 4, 5, 5]
     Out [1, 2, 3, 4, 1, 2, 3, 1, 2, 1, 2, 3, 1, 2]
@@ -21,6 +25,16 @@ def from_plane_to_index(planes):
 
 
 def save_as_locpalmtracer(image_size, results, parameters, outputfile_name='results.txt'):
+    """
+    This function initializes and fills two dict() compatible with PALMTracer file format
+    Args:
+        image_size: return of np.shape, (z, y, x) format
+        results: int, number of planes (image_size[0])
+        parameters: dict(), contains parameters used for spline fitting
+        outputfile_name: not used
+    Returns:
+        None
+    """
     # header of locPALMTracer file
     metadata_pt = pd.DataFrame(columns=['Width', 'Height', 'nb_Planes', 'nb_Points', 
                                     'Pixel_Size(um)', 'Frame_Duration(s)', 'Gaussian_Fit', 'Spectral'])
