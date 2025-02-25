@@ -40,11 +40,11 @@ bump2version
 pybind11
 
 # pytorch
---index-url https://download.pytorch.org/whl/cu126
-torch
-torchvision
-torchaudio
-pycuda
+# --index-url https://download.pytorch.org/whl/cu126
+# torch
+# torchvision
+# torchaudio
+# pycuda
 
 
 # Commandes complémentaires :
