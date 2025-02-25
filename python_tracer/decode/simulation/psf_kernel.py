@@ -5,10 +5,11 @@ from typing import Tuple, Union
 
 import numpy as np
 import sys
-import spline  # cubic spline implementation
+# import spline  # cubic spline implementation
 import torch
 
 from python_tracer.decode.generic import slicing as gutil
+from python_tracer.utils.libs import spline
 import python_tracer.decode.generic.utils
 
 

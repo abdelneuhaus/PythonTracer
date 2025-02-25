@@ -5,7 +5,6 @@ source = python_tracer  # Analyse seulement ce module
 [coverage:report]
 # Exclure toutes les lignes de code dans les fichiers de test, exemples, le main et les init
 omit =
-    python_tracer/_tests/*
     python_tracer/decode/*
     examples/*
     main.py

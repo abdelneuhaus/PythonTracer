@@ -1,6 +1,7 @@
 # Test file for spline fitting module
 
 import cv2
+import os
 import numpy as np
 import scipy.io as io
 from scipy.signal import convolve2d
@@ -10,7 +11,7 @@ from python_tracer.SplineFitterSMAP import gaussian_filter
 from python_tracer.SplineFitterSMAP import filter2
 from python_tracer.SplineFitterSMAP import difference_of_gaussians
 from python_tracer.SplineFitterSMAP import maximumfindcall
-
+from python_tracer.utils.libs import spline
 
 ##################################################
 def test_set_parameters():
@@ -35,7 +36,7 @@ def test_set_parameters():
         "peakfilter": 1.2,
         "peakcutoff": 15,
         "roifit": 13,
-        "outputfile": './outputSMAP.csv',
+        "outputfile": "results/"+os.path.basename(os.path.normpath(parameters['imagefile'])).replace("tif","csv"),
         "outputformat": 'csv',
         "pixelsize": 160,
         "bidirectional": 0,

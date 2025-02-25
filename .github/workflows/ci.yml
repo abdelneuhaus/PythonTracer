@@ -1,6 +1,5 @@
 name: CI   # Nom du workflow
 
-# Définition de la méthode de lancement du workflow (à quel moment et sur quelle branche)
 on:
   push:
     branches:
@@ -10,7 +9,6 @@ on:
       - main
   workflow_dispatch:  # Permet d'exécuter le workflow manuellement depuis l'onglet Actions
 
-# Liste des routines qui seront lancées
 jobs:
   Test:
     name: Tests on ${{ matrix.platform }} for Python ${{ matrix.python-version }}
@@ -18,14 +16,18 @@ jobs:
     timeout-minutes: 30             # Limite la durée de la routine
     strategy:
       fail-fast: false              # Continue les autres routines si une matrice échoue.
-      matrix:                       # Définition de la matrice de test (ici, pour les 3 OS et 2 versions de python donc 6 lancements)
+      matrix:                       
         platform: [windows-latest ]
         python-version: ["3.13"]
 
     steps:
-      # Récupération du dépot dans l'environnement
+      # Récupération du dépôt dans l'environnement
       - name: Checkout code
         uses: actions/checkout@v4
+
+      # Ajout du chemin du projet au PYTHONPATH
+      - name: Ajouter le repo au PYTHONPATH
+        run: echo "PYTHONPATH=${{ github.workspace }}" >> $GITHUB_ENV
 
       # Installation de Python
       - name: Set up Python ${{ matrix.python-version }}
@@ -48,6 +50,9 @@ jobs:
           pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
           python -m pip install -r requirements.txt
 
+      # Vérification de l'import du module
+      - name: Vérifier l'import du module
+        run: python -c "from python_tracer.utils.libs import spline; print('Import réussi')"
 
       # Lancement des tests avec pytest
       - name: Run tests with pytest
