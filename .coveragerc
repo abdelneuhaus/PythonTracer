@@ -1,0 +1,22 @@
+[coverage:run]
+branch = True
+source = python_tracer  # Analyse seulement ce module
+
+[coverage:report]
+# Exclure toutes les lignes de code dans les fichiers de test, exemples, le main et les init
+omit =
+    python_tracer/_tests/*
+    python_tracer/decode/*
+    examples/*
+    main.py
+    conftest.py
+    **/__init__.py
+
+exclude_lines =
+    # Ces commentaires excluent des lignes spécifiques si elles sont détectées
+    pragma: no cover
+
+exclude_also =
+    if platform.system()
+	except OSError as e
+	except Exception as e

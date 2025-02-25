@@ -48,6 +48,7 @@ pycuda
 
 
 # Commandes complémentaires :
+# Dans le dossier SplinePSF/cpp_cuda_c
 # cmake -S ../cpp_cuda_c -B build ^
 #      -DPython_EXECUTABLE="C:\Git\PythonTracer\venv\Scripts\python.exe" ^
 #      -Dpybind11_DIR="C:\Git\PythonTracer\venv\Lib\site-packages\pybind11\share\cmake\pybind11" ^
@@ -55,4 +56,5 @@ pycuda
 #
 # python setup.py bdist_wheel (depuis le dossier SplinePSF/python)
 # pip install dist\spline-0.10.1.dev0-cp313-cp313-win_amd64.whl --force-reinstall
-# Sinon, drag & drop le fichier
+# Sinon, drag & drop le fichier depuis utils (mais compiler avec Python 3.13 et Cuda 12.6.0)
+# Devrait marcher avec CUDA > 12.6.0
