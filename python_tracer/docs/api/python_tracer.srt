@@ -1,9 +1,0 @@
-PythonTracer API Reference
-=========================
-
-.. toctree::
-   :maxdepth: 2
-
-   python_tracer.Fitting2D
-   palm_tracer.SplineFitterSMAP
-   palm_tracer.utils

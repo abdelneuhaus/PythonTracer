@@ -1,0 +1,424 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>python_tracer.SplineFitterSMAP package &mdash; PythonTracer 2025 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=cb975c41"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="python_tracer.Fitting2D package" href="python_tracer.Fitting2D.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            PythonTracer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user.html">PythonTracer user guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">python_tracer</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="python_tracer.html">python_tracer package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="python_tracer.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="python_tracer.Fitting2D.html">python_tracer.Fitting2D package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">python_tracer.SplineFitterSMAP package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="python_tracer.html#module-python_tracer">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PythonTracer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">python_tracer</a></li>
+          <li class="breadcrumb-item"><a href="python_tracer.html">python_tracer package</a></li>
+      <li class="breadcrumb-item active">python_tracer.SplineFitterSMAP package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/generated/python_tracer.SplineFitterSMAP.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="python-tracer-splinefittersmap-package">
+<h1>python_tracer.SplineFitterSMAP package<a class="headerlink" href="#python-tracer-splinefittersmap-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-python_tracer.SplineFitterSMAP.cspline_fitter">
+<span id="python-tracer-splinefittersmap-cspline-fitter-module"></span><h2>python_tracer.SplineFitterSMAP.cspline_fitter module<a class="headerlink" href="#module-python_tracer.SplineFitterSMAP.cspline_fitter" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="python_tracer.SplineFitterSMAP.cspline_fitter.cspline_fitter">
+<span class="sig-prename descclassname"><span class="pre">python_tracer.SplineFitterSMAP.cspline_fitter.</span></span><span class="sig-name descname"><span class="pre">cspline_fitter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preview</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/python_tracer/SplineFitterSMAP/cspline_fitter.html#cspline_fitter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python_tracer.SplineFitterSMAP.cspline_fitter.cspline_fitter" title="Link to this definition"></a></dt>
+<dd><p>Cspline fitter. Reference: <a class="reference external" href="https://github.com/jries/fit3Dcspline/blob/master/simplefitter_cspline.m">https://github.com/jries/fit3Dcspline/blob/master/simplefitter_cspline.m</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameters</strong> (<em>dict</em>) – dictionary from parameters (SMAP output file)</p></li>
+<li><p><strong>preview</strong> (<em>bool</em>) – don’t use</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-python_tracer.SplineFitterSMAP.cspline_fitter_dask">
+<span id="python-tracer-splinefittersmap-cspline-fitter-dask-module"></span><h2>python_tracer.SplineFitterSMAP.cspline_fitter_dask module<a class="headerlink" href="#module-python_tracer.SplineFitterSMAP.cspline_fitter_dask" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="python_tracer.SplineFitterSMAP.cspline_fitter_dask.cspline_fitter_dask">
+<span class="sig-prename descclassname"><span class="pre">python_tracer.SplineFitterSMAP.cspline_fitter_dask.</span></span><span class="sig-name descname"><span class="pre">cspline_fitter_dask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/python_tracer/SplineFitterSMAP/cspline_fitter_dask.html#cspline_fitter_dask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python_tracer.SplineFitterSMAP.cspline_fitter_dask.cspline_fitter_dask" title="Link to this definition"></a></dt>
+<dd><p>This function reads the stack in lazy mode via Dask. It detects PSFs, extracts ROIs, performs spline fit and saves the results
+Args:
+parameters : dict, parameters required for spline fitting.</p>
+</dd></dl>
+
+</section>
+<section id="module-python_tracer.SplineFitterSMAP.difference_of_gaussians">
+<span id="python-tracer-splinefittersmap-difference-of-gaussians-module"></span><h2>python_tracer.SplineFitterSMAP.difference_of_gaussians module<a class="headerlink" href="#module-python_tracer.SplineFitterSMAP.difference_of_gaussians" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="python_tracer.SplineFitterSMAP.difference_of_gaussians.difference_of_gaussians">
+<span class="sig-prename descclassname"><span class="pre">python_tracer.SplineFitterSMAP.difference_of_gaussians.</span></span><span class="sig-name descname"><span class="pre">difference_of_gaussians</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imphot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">peakfilter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/python_tracer/SplineFitterSMAP/difference_of_gaussians.html#difference_of_gaussians"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python_tracer.SplineFitterSMAP.difference_of_gaussians.difference_of_gaussians" title="Link to this definition"></a></dt>
+<dd><p>This function computes differences of gaussian (DoG) of an image. Traduction of <a class="reference external" href="https://github.com/jries/SMAP/blob/master/fit3Dcspline/simplefitter_cspline.m">https://github.com/jries/SMAP/blob/master/fit3Dcspline/simplefitter_cspline.m</a>
+:param imphot: array, one image of the stack
+:param peakfilter: float, peak value to use</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array, processed image</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>impf</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-python_tracer.SplineFitterSMAP.filter2">
+<span id="python-tracer-splinefittersmap-filter2-module"></span><h2>python_tracer.SplineFitterSMAP.filter2 module<a class="headerlink" href="#module-python_tracer.SplineFitterSMAP.filter2" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="python_tracer.SplineFitterSMAP.filter2.filter2">
+<span class="sig-prename descclassname"><span class="pre">python_tracer.SplineFitterSMAP.filter2.</span></span><span class="sig-name descname"><span class="pre">filter2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'same'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/python_tracer/SplineFitterSMAP/filter2.html#filter2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python_tracer.SplineFitterSMAP.filter2.filter2" title="Link to this definition"></a></dt>
+<dd><p>Two-dimensional digital filter. Adapted from
+:param b: ndarray, the 2-D FIR filter
+:param x: ndarray, input data to filter.
+:param shape: {‘same’, ‘valid’, ‘full’}, optional</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray, filtered data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>y</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-python_tracer.SplineFitterSMAP.fitspline">
+<span id="python-tracer-splinefittersmap-fitspline-module"></span><h2>python_tracer.SplineFitterSMAP.fitspline module<a class="headerlink" href="#module-python_tracer.SplineFitterSMAP.fitspline" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="python_tracer.SplineFitterSMAP.fitspline.fit_spline">
+<span class="sig-prename descclassname"><span class="pre">python_tracer.SplineFitterSMAP.fitspline.</span></span><span class="sig-name descname"><span class="pre">fit_spline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imstack</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">peakcoordinates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varstack</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/python_tracer/SplineFitterSMAP/fitspline.html#fit_spline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python_tracer.SplineFitterSMAP.fitspline.fit_spline" title="Link to this definition"></a></dt>
+<dd><p>Perform the spline fitting of ROIs in imstack.
+:param imstack: stack of images (ROIs)
+:type imstack: np.ndarray
+:param peakcoordinates: coordinates of the detected PSFs
+:type peakcoordinates: np.ndarray
+:param parameters: parameters dictionary
+:type parameters: dict
+:param varstack: variance map if sCMOS camera. Else, 0 or None.
+:type varstack: np.ndarray</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray, results of the spline fitting</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>results</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-python_tracer.SplineFitterSMAP.fspecial">
+<span id="python-tracer-splinefittersmap-fspecial-module"></span><h2>python_tracer.SplineFitterSMAP.fspecial module<a class="headerlink" href="#module-python_tracer.SplineFitterSMAP.fspecial" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="python_tracer.SplineFitterSMAP.fspecial.gaussian_filter">
+<span class="sig-prename descclassname"><span class="pre">python_tracer.SplineFitterSMAP.fspecial.</span></span><span class="sig-name descname"><span class="pre">gaussian_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">HSIZE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SIGMA</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/python_tracer/SplineFitterSMAP/fspecial.html#gaussian_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python_tracer.SplineFitterSMAP.fspecial.gaussian_filter" title="Link to this definition"></a></dt>
+<dd><p>This function creates a gaussian kernel.
+:param HSIZE: int, size of kernel
+:param SIGMA: float, sigma to generate the kernel</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array, gaussian kernel</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>k2d</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-python_tracer.SplineFitterSMAP.maximumfindcall">
+<span id="python-tracer-splinefittersmap-maximumfindcall-module"></span><h2>python_tracer.SplineFitterSMAP.maximumfindcall module<a class="headerlink" href="#module-python_tracer.SplineFitterSMAP.maximumfindcall" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="python_tracer.SplineFitterSMAP.maximumfindcall.maximumfindcall">
+<span class="sig-prename descclassname"><span class="pre">python_tracer.SplineFitterSMAP.maximumfindcall.</span></span><span class="sig-name descname"><span class="pre">maximumfindcall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/python_tracer/SplineFitterSMAP/maximumfindcall.html#maximumfindcall"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python_tracer.SplineFitterSMAP.maximumfindcall.maximumfindcall" title="Link to this definition"></a></dt>
+<dd><p>This function finds local maxima in a 2D image using similar approch to Neubeck&amp;Gool algorithm.
+Adapted from <a class="reference external" href="https://github.com/jries/fit3Dcspline/blob/master/shared/maximumfindcall.m">https://github.com/jries/fit3Dcspline/blob/master/shared/maximumfindcall.m</a>
+:param imin: np.array, input image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array, contains [x,y, intensity] for each maxima</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>maximaout</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-python_tracer.SplineFitterSMAP.mleFit">
+<span id="python-tracer-splinefittersmap-mlefit-module"></span><h2>python_tracer.SplineFitterSMAP.mleFit module<a class="headerlink" href="#module-python_tracer.SplineFitterSMAP.mleFit" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="python_tracer.SplineFitterSMAP.mleFit.Dim3">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">python_tracer.SplineFitterSMAP.mleFit.</span></span><span class="sig-name descname"><span class="pre">Dim3</span></span><a class="reference internal" href="../_modules/python_tracer/SplineFitterSMAP/mleFit.html#Dim3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python_tracer.SplineFitterSMAP.mleFit.Dim3" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Structure</span></code></p>
+<p>Structure to define a 3D dimension for CUDA kernel launch.
+Uses for kernel launch by setting DimBlock and DimGrid.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="python_tracer.SplineFitterSMAP.mleFit.Dim3.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#python_tracer.SplineFitterSMAP.mleFit.Dim3.x" title="Link to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="python_tracer.SplineFitterSMAP.mleFit.Dim3.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#python_tracer.SplineFitterSMAP.mleFit.Dim3.y" title="Link to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="python_tracer.SplineFitterSMAP.mleFit.Dim3.z">
+<span class="sig-name descname"><span class="pre">z</span></span><a class="headerlink" href="#python_tracer.SplineFitterSMAP.mleFit.Dim3.z" title="Link to this definition"></a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="python_tracer.SplineFitterSMAP.mleFit.mleFit_LM">
+<span class="sig-prename descclassname"><span class="pre">python_tracer.SplineFitterSMAP.mleFit.</span></span><span class="sig-name descname"><span class="pre">mleFit_LM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imstack</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitpar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">varmap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zstart</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/python_tracer/SplineFitterSMAP/mleFit.html#mleFit_LM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python_tracer.SplineFitterSMAP.mleFit.mleFit_LM" title="Link to this definition"></a></dt>
+<dd><p>MLE fit using GPU adapted from <a class="reference external" href="https://github.com/jries/SMAP/blob/master/fit3Dcspline/source/GPUmleFit_LM_SingleChannel/GPUmleFit_LM/mexFunction.cpp">https://github.com/jries/SMAP/blob/master/fit3Dcspline/source/GPUmleFit_LM_SingleChannel/GPUmleFit_LM/mexFunction.cpp</a>
+:param imstack: 3D image stack
+:type imstack: np.ndarray
+:param iterations: number of iterations
+:type iterations: int
+:param fitpar: parameters
+:type fitpar: np.ndarray
+:param varmap: variance map if sCMOS, else not used
+:type varmap: np.ndarray
+:param zstart: starting z (depth) value
+:type zstart: float</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>parameters
+CRLBs_host (np.ndarray): CRLBs
+LogLike_host (np.ndarray): Log likelihood</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Parameters_host (np.ndarray)</p>
+</dd>
+</dl>
+<p>DLL compilation in Admin VISUAL STUDIO terminal:
+nvcc -ccbin “C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64” -shared -o GPUmleFit.dll wrapper.cu GPUmleFit_LM_EMCCD.cu GPUmleFit_LM_sCMOS.cu -Xcompiler “/MD” -Xlinker “/NODEFAULTLIB:LIBCMT”
+Requires Visual Studio 22 installed</p>
+</dd></dl>
+
+</section>
+<section id="module-python_tracer.SplineFitterSMAP.preview_splinefitter">
+<span id="python-tracer-splinefittersmap-preview-splinefitter-module"></span><h2>python_tracer.SplineFitterSMAP.preview_splinefitter module<a class="headerlink" href="#module-python_tracer.SplineFitterSMAP.preview_splinefitter" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="python_tracer.SplineFitterSMAP.preview_splinefitter.previews_splinefitter">
+<span class="sig-prename descclassname"><span class="pre">python_tracer.SplineFitterSMAP.preview_splinefitter.</span></span><span class="sig-name descname"><span class="pre">previews_splinefitter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_frames</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/python_tracer/SplineFitterSMAP/preview_splinefitter.html#previews_splinefitter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python_tracer.SplineFitterSMAP.preview_splinefitter.previews_splinefitter" title="Link to this definition"></a></dt>
+<dd><p>Preview function. From parameters, detect ROIs and show in live a red for on top of each detected spots.
+:param parameters: dictionary from parameters (SMAP output file)
+:type parameters: dict
+:param number_frames: int, number of frames to use for preview</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>stock_imphot:
+stock_maxgood:</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>img</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-python_tracer.SplineFitterSMAP.save_as_locpalmtracer">
+<span id="python-tracer-splinefittersmap-save-as-locpalmtracer-module"></span><h2>python_tracer.SplineFitterSMAP.save_as_locpalmtracer module<a class="headerlink" href="#module-python_tracer.SplineFitterSMAP.save_as_locpalmtracer" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="python_tracer.SplineFitterSMAP.save_as_locpalmtracer.from_plane_to_index">
+<span class="sig-prename descclassname"><span class="pre">python_tracer.SplineFitterSMAP.save_as_locpalmtracer.</span></span><span class="sig-name descname"><span class="pre">from_plane_to_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">planes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/python_tracer/SplineFitterSMAP/save_as_locpalmtracer.html#from_plane_to_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python_tracer.SplineFitterSMAP.save_as_locpalmtracer.from_plane_to_index" title="Link to this definition"></a></dt>
+<dd><p>This function generates index list from list of plane
+:param Planes: array of int</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of int</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>transformed_list</p>
+</dd>
+</dl>
+<p>eg: [1, 1, 1, 1, 2, 2, 2, 3, 3, 4, 4, 4, 5, 5]
+Out [1, 2, 3, 4, 1, 2, 3, 1, 2, 1, 2, 3, 1, 2]</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="python_tracer.SplineFitterSMAP.save_as_locpalmtracer.save_as_locpalmtracer">
+<span class="sig-prename descclassname"><span class="pre">python_tracer.SplineFitterSMAP.save_as_locpalmtracer.</span></span><span class="sig-name descname"><span class="pre">save_as_locpalmtracer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputfile_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'results.txt'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/python_tracer/SplineFitterSMAP/save_as_locpalmtracer.html#save_as_locpalmtracer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python_tracer.SplineFitterSMAP.save_as_locpalmtracer.save_as_locpalmtracer" title="Link to this definition"></a></dt>
+<dd><p>This function initializes and fills two dict() compatible with PALMTracer file format
+:param image_size: return of np.shape, (z, y, x) format
+:param results: int, number of planes (image_size[0])
+:param parameters: dict(), contains parameters used for spline fitting
+:param outputfile_name: not used</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-python_tracer.SplineFitterSMAP.save_results_python">
+<span id="python-tracer-splinefittersmap-save-results-python-module"></span><h2>python_tracer.SplineFitterSMAP.save_results_python module<a class="headerlink" href="#module-python_tracer.SplineFitterSMAP.save_results_python" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="python_tracer.SplineFitterSMAP.save_results_python.save_results_python">
+<span class="sig-prename descclassname"><span class="pre">python_tracer.SplineFitterSMAP.save_results_python.</span></span><span class="sig-name descname"><span class="pre">save_results_python</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'results.csv'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/python_tracer/SplineFitterSMAP/save_results_python.html#save_results_python"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python_tracer.SplineFitterSMAP.save_results_python.save_results_python" title="Link to this definition"></a></dt>
+<dd><p>Save the results of the spline fitter in a CSV/txt file.
+:param results: results from the spline fitter
+:type results: np.ndarray
+:param p: parameters from the spline fitter
+:type p: dict
+:param output_filename: output filename
+:type output_filename: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-python_tracer.SplineFitterSMAP.set_parameters">
+<span id="python-tracer-splinefittersmap-set-parameters-module"></span><h2>python_tracer.SplineFitterSMAP.set_parameters module<a class="headerlink" href="#module-python_tracer.SplineFitterSMAP.set_parameters" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="python_tracer.SplineFitterSMAP.set_parameters.set_parameters">
+<span class="sig-prename descclassname"><span class="pre">python_tracer.SplineFitterSMAP.set_parameters.</span></span><span class="sig-name descname"><span class="pre">set_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stack_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conversion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">peakfilter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">peakcutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roifit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">13</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./outputSMAP.csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixelsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">160</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/python_tracer/SplineFitterSMAP/set_parameters.html#set_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#python_tracer.SplineFitterSMAP.set_parameters.set_parameters" title="Link to this definition"></a></dt>
+<dd><p>Set the parameters for the spline fitter. Some parameters are irrelevant for the spline fitter (raw translation of Matlab code).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stack_path</strong> – path to the stack file</p></li>
+<li><p><strong>calib_file</strong> – path to the calibration file</p></li>
+<li><p><strong>offset</strong> – offset value</p></li>
+<li><p><strong>conversion</strong> – conversion value EM</p></li>
+<li><p><strong>peakfilter</strong> – peak filter size of gaussian filter</p></li>
+<li><p><strong>peakcutoff</strong> – peak cutoff value</p></li>
+<li><p><strong>roifit</strong> – ROI size around the peak</p></li>
+<li><p><strong>outputfile</strong> – output file path (need to be removed)</p></li>
+<li><p><strong>pixelsize</strong> – pixel size in nm</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary containing the parameters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>parameters</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-python_tracer.SplineFitterSMAP">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-python_tracer.SplineFitterSMAP" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="python_tracer.Fitting2D.html" class="btn btn-neutral float-left" title="python_tracer.Fitting2D package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Abdelghani Neuhaus.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

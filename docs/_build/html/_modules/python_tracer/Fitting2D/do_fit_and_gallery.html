@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="fr" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>python_tracer.Fitting2D.do_fit_and_gallery &mdash; Documentation PythonTracer 2025</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=431bb043"></script>
+      <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/translations.js?v=041d0952"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            PythonTracer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user.html">PythonTracer user guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../generated/modules.html">python_tracer</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PythonTracer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Code du module</a></li>
+      <li class="breadcrumb-item active">python_tracer.Fitting2D.do_fit_and_gallery</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Code source de python_tracer.Fitting2D.do_fit_and_gallery</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">ctypes</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tifffile</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tiff</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="c1"># import skimage.io as io</span>
+
+<div class="viewcode-block" id="do_fit_and_gallery">
+<a class="viewcode-back" href="../../../generated/python_tracer.Fitting2D.html#python_tracer.Fitting2D.do_fit_and_gallery.do_fit_and_gallery">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">do_fit_and_gallery</span><span class="p">(</span><span class="n">path_stack</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">180.0</span><span class="p">,</span> <span class="n">size_ROI_fit</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">size_ROI_crop</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">number_of_ROI_per_line</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function does a Gaussian fit, crop detected PSFs, creates a gallery of ROIs and save it as well as localizations file.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        path_stack: str, path of data</span>
+<span class="sd">        threshold: float, threshold used for the gaussian fitting</span>
+<span class="sd">        size_ROI_fit: int, size of the ROI (nxn) for PSF detection for the gaussian fitting</span>
+<span class="sd">        size_ROI_crop: int, size of the ROI (nxn) for PSF cropping and gallery making</span>
+<span class="sd">        number_of_ROI_per_line: int, number of ROIs per line in the gallery of PSFs</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mydll</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cdll</span><span class="o">.</span><span class="n">LoadLibrary</span><span class="p">(</span><span class="s2">&quot;./python_tracer/utils/CPU_PALM.dll&quot;</span><span class="p">)</span>
+    <span class="n">c_short_pointer</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_ushort</span><span class="p">)</span>
+    <span class="n">c_double_pointer</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">)</span>
+
+    <span class="c1"># load stack + check size</span>
+    <span class="n">stack</span> <span class="o">=</span> <span class="n">tiff</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">path_stack</span><span class="p">)</span>
+
+    <span class="c1"># fitting parameters</span>
+    <span class="c1"># ONLY CHANGE theresholdVal &amp; size for now</span>
+    <span class="n">potential_points</span> <span class="o">=</span> <span class="mi">4999</span> <span class="c1"># max points per frame approxi. (to divide by 13 because it creates an array with all 13 parameters for each points)</span>
+    <span class="n">waveletNo</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">thresholdVal</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span>  <span class="c1"># threshold</span>
+    <span class="n">watershedRatio</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># watershed or not</span>
+    <span class="n">volMin</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">intMin</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">gaussFit</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_ushort</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># gauss fit type</span>
+    <span class="n">sigma_gaussfit</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># initial value for sigma</span>
+    <span class="n">theta_gauss_fit</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># initial value for theta</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_ushort</span><span class="p">(</span><span class="n">size_ROI_fit</span><span class="p">)</span>  <span class="c1"># size of ROI for the fit (ROIs shown with Preview 2D Localization in PT)</span>
+
+    <span class="c1"># stock centroids &amp; ROIs</span>
+    <span class="n">centroids</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ROIs</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">stack</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        
+        <span class="c1"># create empty array to stock detected loc. of the current frame</span>
+        <span class="n">empty_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">potential_points</span><span class="p">,))</span>
+        <span class="n">point_list_array</span> <span class="o">=</span> <span class="n">empty_array</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data_as</span><span class="p">(</span><span class="n">c_double_pointer</span><span class="p">)</span>
+
+        <span class="n">image_array</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data_as</span><span class="p">(</span><span class="n">c_short_pointer</span><span class="p">)</span>
+
+        <span class="c1"># actual fit</span>
+        <span class="n">mydll</span><span class="o">.</span><span class="n">_OpenPALMProcessing</span><span class="p">(</span><span class="n">image_array</span><span class="p">,</span> <span class="n">point_list_array</span><span class="p">,</span> <span class="n">potential_points</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> 
+                                <span class="n">waveletNo</span><span class="p">,</span> <span class="n">thresholdVal</span><span class="p">,</span> <span class="n">watershedRatio</span><span class="p">,</span> <span class="n">volMin</span><span class="p">,</span> <span class="n">intMin</span><span class="p">,</span> 
+                                <span class="n">gaussFit</span><span class="p">,</span> <span class="n">sigma_gaussfit</span><span class="p">,</span> <span class="n">sigma_gaussfit</span><span class="p">,</span> <span class="n">theta_gauss_fit</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="n">mydll</span><span class="o">.</span><span class="n">_PALMProcessing</span><span class="p">()</span>
+        <span class="n">pointNumberFrame</span> <span class="o">=</span> <span class="p">(</span><span class="n">t</span> <span class="o">/</span> <span class="mi">13</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="c1"># number of detected locs on the frame</span>
+        <span class="n">mydll</span><span class="o">.</span><span class="n">_closePALMProcessing</span><span class="p">()</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ctypeslib</span><span class="o">.</span><span class="n">as_array</span><span class="p">(</span><span class="n">point_list_array</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">potential_points</span><span class="p">,))</span>
+
+        <span class="c1"># stock centroids and ROIs</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="mi">13</span><span class="p">):</span>
+            <span class="n">centroidX</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">4</span><span class="p">]</span>
+            <span class="n">centroidY</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">3</span><span class="p">]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">centroidX</span><span class="p">,</span> <span class="n">centroidY</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">centroidX</span><span class="p">,</span> <span class="n">centroidY</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                <span class="n">centroids</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">centroidX</span><span class="p">,</span> <span class="n">centroidY</span><span class="p">))</span>
+                
+                <span class="c1"># determine ROIs border (coordinates)</span>
+                <span class="n">x_min</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">centroidX</span><span class="p">)</span> <span class="o">-</span> <span class="n">size_ROI_crop</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">x_max</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">centroidX</span><span class="p">)</span> <span class="o">+</span> <span class="n">size_ROI_crop</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+                <span class="n">y_min</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">centroidY</span><span class="p">)</span> <span class="o">-</span> <span class="n">size_ROI_crop</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">y_max</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">centroidY</span><span class="p">)</span> <span class="o">+</span> <span class="n">size_ROI_crop</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+                
+                <span class="c1"># generate ROIs of locs of a single frame</span>
+                <span class="n">ROI</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="n">y_min</span><span class="p">:</span><span class="n">y_max</span><span class="p">,</span> <span class="n">x_min</span><span class="p">:</span><span class="n">x_max</span><span class="p">]</span>
+                
+                <span class="c1"># &quot;fill&quot; ROI if at the border (but create black space, maybe use small value for size_crop)</span>
+                <span class="k">if</span> <span class="n">ROI</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">size_ROI_crop</span> <span class="ow">or</span> <span class="n">ROI</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">size_ROI_crop</span><span class="p">:</span>
+                    <span class="n">padded_ROI</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">size_ROI_crop</span><span class="p">,</span> <span class="n">size_ROI_crop</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ROI</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+                    <span class="n">padded_ROI</span><span class="p">[:</span><span class="n">ROI</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:</span><span class="n">ROI</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">ROI</span>
+                    <span class="n">ROI</span> <span class="o">=</span> <span class="n">padded_ROI</span>                
+                <span class="n">ROIs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ROI</span><span class="p">)</span>
+
+    <span class="c1"># gallery_size = size of one ROI * number of ROI per line (32 here)</span>
+    <span class="c1"># create a stack of size (gallery_size * gallery_size)</span>
+    <span class="n">gallery_size</span> <span class="o">=</span> <span class="n">size_ROI_crop</span><span class="o">*</span><span class="n">number_of_ROI_per_line</span>
+    <span class="n">num_rois</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ROIs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">num_rois</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No ROIs found.&quot;</span><span class="p">)</span>
+        <span class="n">gallery_of_rois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gallery_size</span><span class="p">,</span> <span class="n">gallery_size</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">stack</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># determine number of ROI to fill stacks</span>
+        <span class="n">num_rois_per_layer</span> <span class="o">=</span> <span class="p">(</span><span class="n">gallery_size</span> <span class="o">//</span> <span class="n">size_ROI_crop</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">num_layers</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_rois</span> <span class="o">+</span> <span class="n">num_rois_per_layer</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">num_rois_per_layer</span>  <span class="c1"># calculate number of stacks</span>
+        
+        <span class="c1"># create stack</span>
+        <span class="n">gallery_of_rois</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">gallery_size</span><span class="p">,</span> <span class="n">gallery_size</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">stack</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        
+        <span class="c1"># fill stack</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ROI</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ROIs</span><span class="p">):</span>
+            <span class="n">layer</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">//</span> <span class="n">num_rois_per_layer</span>
+            <span class="n">position</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">%</span> <span class="n">num_rois_per_layer</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="p">(</span><span class="n">position</span> <span class="o">//</span> <span class="p">(</span><span class="n">gallery_size</span> <span class="o">//</span> <span class="n">size_ROI_crop</span><span class="p">))</span> <span class="o">*</span> <span class="n">size_ROI_crop</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="p">(</span><span class="n">position</span> <span class="o">%</span> <span class="p">(</span><span class="n">gallery_size</span> <span class="o">//</span> <span class="n">size_ROI_crop</span><span class="p">))</span> <span class="o">*</span> <span class="n">size_ROI_crop</span>
+            <span class="n">gallery_of_rois</span><span class="p">[</span><span class="n">row</span><span class="p">:</span><span class="n">row</span><span class="o">+</span><span class="n">size_ROI_crop</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span><span class="n">col</span><span class="o">+</span><span class="n">size_ROI_crop</span><span class="p">,</span> <span class="n">layer</span><span class="p">]</span> <span class="o">=</span> <span class="n">ROI</span>
+        
+        <span class="c1"># if last stack is not full, duplicate last ROIs until it is</span>
+        <span class="k">while</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">num_layers</span> <span class="o">*</span> <span class="n">num_rois_per_layer</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">layer</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">//</span> <span class="n">num_rois_per_layer</span>
+            <span class="n">position</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">%</span> <span class="n">num_rois_per_layer</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="p">(</span><span class="n">position</span> <span class="o">//</span> <span class="p">(</span><span class="n">gallery_size</span> <span class="o">//</span> <span class="n">size_ROI_crop</span><span class="p">))</span> <span class="o">*</span> <span class="n">size_ROI_crop</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="p">(</span><span class="n">position</span> <span class="o">%</span> <span class="p">(</span><span class="n">gallery_size</span> <span class="o">//</span> <span class="n">size_ROI_crop</span><span class="p">))</span> <span class="o">*</span> <span class="n">size_ROI_crop</span>
+            <span class="n">gallery_of_rois</span><span class="p">[</span><span class="n">row</span><span class="p">:</span><span class="n">row</span><span class="o">+</span><span class="n">size_ROI_crop</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span><span class="n">col</span><span class="o">+</span><span class="n">size_ROI_crop</span><span class="p">,</span> <span class="n">layer</span><span class="p">]</span> <span class="o">=</span> <span class="n">ROIs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># change shape of stack to have (z, x, y)</span>
+    <span class="n">gallery_of_rois_transposed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">gallery_of_rois</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># save TIFF file</span>
+    <span class="n">output_filename</span> <span class="o">=</span> <span class="s2">&quot;gallery_of_rois_&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">path_stack</span><span class="p">))</span>
+    <span class="c1"># io.imsave(output_filename, gallery_of_rois_transposed, check_contrast=False)</span>
+    <span class="n">tiff</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">output_filename</span><span class="p">,</span> <span class="n">gallery_of_rois_transposed</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Droits d'auteur 2025, Abdelghani Neuhaus.</p>
+  </div>
+
+  Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">thème</a>
+    fourni par <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

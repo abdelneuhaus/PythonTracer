@@ -1,0 +1,234 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="fr" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>python_tracer.SplineFitterSMAP.cspline_fitter_dask &mdash; Documentation PythonTracer 2025</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=431bb043"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/translations.js?v=e6b791cb"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            PythonTracer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user.html">PythonTracer user guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../generated/modules.html">python_tracer</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PythonTracer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Code du module</a></li>
+      <li class="breadcrumb-item active">python_tracer.SplineFitterSMAP.cspline_fitter_dask</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Code source de python_tracer.SplineFitterSMAP.cspline_fitter_dask</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dask.bag</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">db</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dask_image.imread</span><span class="w"> </span><span class="kn">import</span> <span class="n">imread</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.io</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">io</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.difference_of_gaussians</span><span class="w"> </span><span class="kn">import</span> <span class="n">difference_of_gaussians</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.fitspline</span><span class="w"> </span><span class="kn">import</span> <span class="n">fit_spline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.maximumfindcall</span><span class="w"> </span><span class="kn">import</span> <span class="n">maximumfindcall</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.save_results_python</span><span class="w"> </span><span class="kn">import</span> <span class="n">save_results_python</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.save_as_locpalmtracer</span><span class="w"> </span><span class="kn">import</span> <span class="n">save_as_locpalmtracer</span>
+
+
+<div class="viewcode-block" id="cspline_fitter_dask">
+<a class="viewcode-back" href="../../../generated/python_tracer.SplineFitterSMAP.html#python_tracer.SplineFitterSMAP.cspline_fitter_dask.cspline_fitter_dask">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">cspline_fitter_dask</span><span class="p">(</span><span class="n">parameters</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function reads the stack in lazy mode via Dask. It detects PSFs, extracts ROIs, performs spline fit and saves the results</span>
+<span class="sd">    Args:</span>
+<span class="sd">    parameters : dict, parameters required for spline fitting.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Lazy reading of stack</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">imread</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;imagefile&#39;</span><span class="p">])</span>   <span class="c1"># shape is (t, y, x)</span>
+    <span class="n">nframes</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Compute ROI radius</span>
+    <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;dx&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;roifit&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Read matlab calibration file</span>
+    <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;isspline&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;calibfile&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cal</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;calibfile&#39;</span><span class="p">])</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;dz&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cal</span><span class="p">[</span><span class="s1">&#39;SXY&#39;</span><span class="p">][</span><span class="s1">&#39;cspline&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;dz&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;z0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cal</span><span class="p">[</span><span class="s1">&#39;SXY&#39;</span><span class="p">][</span><span class="s1">&#39;cspline&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;z0&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">coeff</span> <span class="o">=</span> <span class="n">cal</span><span class="p">[</span><span class="s1">&#39;SXY&#39;</span><span class="p">][</span><span class="s1">&#39;cspline&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;coeff&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">coeff</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+                <span class="n">coeff</span> <span class="o">=</span> <span class="n">coeff</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;coeff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">coeff</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Erreur lors du chargement de la calibration, on utilise un fit gaussien ?&quot;</span><span class="p">)</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;isspline&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Aucun fichier de calibration 3D fourni. On continue quand même.&quot;</span><span class="p">)</span>
+        <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;isspline&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+    <span class="c1"># Define local function to handle ONE frame (conversion in photon, DoG filter, maxima detection and ROIs extraction)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">detect_subimages_one_frame</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function detects and extracts ROI of i-th frame.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            i: int, frame index</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            subimages: array, ROIs</span>
+<span class="sd">            peakcoords: array, coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">frame_data</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+        <span class="n">size_img</span> <span class="o">=</span> <span class="n">frame_data</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="c1"># Conversion offset/gain</span>
+        <span class="n">imphot</span> <span class="o">=</span> <span class="p">(</span><span class="n">frame_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">-</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">])</span> <span class="o">*</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;conversion&#39;</span><span class="p">]</span>
+
+        <span class="c1"># Difference of Gaussians</span>
+        <span class="n">impf</span> <span class="o">=</span> <span class="n">difference_of_gaussians</span><span class="p">(</span><span class="n">imphot</span><span class="p">,</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;peakfilter&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Search maxima</span>
+        <span class="n">maxima</span> <span class="o">=</span> <span class="n">maximumfindcall</span><span class="p">(</span><span class="n">impf</span><span class="p">)</span>
+
+        <span class="c1"># Filtering with threshold and if near a border</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;dx&#39;</span><span class="p">]</span>
+        <span class="n">indmgood</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">maxima</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;peakcutoff&#39;</span><span class="p">])</span> <span class="o">&amp;</span>
+            <span class="p">(</span><span class="n">maxima</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dx</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">maxima</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">size_img</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">dx</span><span class="p">)</span> <span class="o">&amp;</span>
+            <span class="p">(</span><span class="n">maxima</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dx</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">maxima</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">size_img</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">dx</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">maxgood</span> <span class="o">=</span> <span class="n">maxima</span><span class="p">[</span><span class="n">indmgood</span><span class="p">,</span> <span class="p">:]</span>
+
+        <span class="c1"># ROIs extraction</span>
+        <span class="n">subimages_frame</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">peakcoords_frame</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">maxgood</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">x_coord</span><span class="p">,</span> <span class="n">y_coord</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">maxgood</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="n">x_min</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x_coord</span> <span class="o">-</span> <span class="n">dx</span><span class="p">)</span>
+            <span class="n">x_max</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x_coord</span> <span class="o">+</span> <span class="n">dx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">y_min</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">y_coord</span> <span class="o">-</span> <span class="n">dx</span><span class="p">)</span>
+            <span class="n">y_max</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">y_coord</span> <span class="o">+</span> <span class="n">dx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">sub_img</span> <span class="o">=</span> <span class="n">imphot</span><span class="p">[</span><span class="n">y_min</span><span class="p">:</span><span class="n">y_max</span><span class="p">,</span> <span class="n">x_min</span><span class="p">:</span><span class="n">x_max</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">sub_img</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">subimages_frame</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_img</span><span class="p">)</span>
+                <span class="n">peakcoords_frame</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x_coord</span><span class="p">,</span> <span class="n">y_coord</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># i+1 =&gt; n° de frame (1-based)</span>
+
+        <span class="k">return</span> <span class="n">subimages_frame</span><span class="p">,</span> <span class="n">peakcoords_frame</span>
+
+    
+    <span class="c1"># Creation of a Dask bag to iterate over all the frames. Mapping of detect_subimages_one_frames over each index</span>
+    <span class="n">bag</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">from_sequence</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">nframes</span><span class="p">),</span> <span class="n">partition_size</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">bag</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">detect_subimages_one_frame</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>  <span class="c1"># Actual parallelization</span>
+
+    <span class="c1"># Concatenate all ROIs and coordinates</span>
+    <span class="n">all_subimages</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">all_peakcoords</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">subimgs</span><span class="p">,</span> <span class="n">coords</span><span class="p">)</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+        <span class="n">all_subimages</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">subimgs</span><span class="p">)</span>
+        <span class="n">all_peakcoords</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+
+    <span class="n">nb_spots</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_subimages</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Détection terminée. Nombre total de ROIs détectées : </span><span class="si">{</span><span class="n">nb_spots</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">nb_spots</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Aucune localisation détectée. Fin du script.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># Stack everything in 3D array (roifit, roifit, nb_detections)</span>
+    <span class="n">img_stack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">all_subimages</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">peak_coordinates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">all_peakcoords</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+    <span class="n">varstack</span> <span class="o">=</span> <span class="mi">0</span>    <span class="c1"># not sCMOS camera</span>
+    <span class="k">if</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;isspline&#39;</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Lancement du fit spline 3D.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Lancement d&#39;un fit (gaussien par ex.) - pas implémenté ici.&quot;</span><span class="p">)</span>
+    
+    <span class="n">resultsh</span> <span class="o">=</span> <span class="n">fit_spline</span><span class="p">(</span><span class="n">img_stack</span><span class="p">,</span> <span class="n">peak_coordinates</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">varstack</span><span class="p">)</span>
+
+    <span class="n">save_results_python</span><span class="p">(</span><span class="n">resultsh</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">output_filename</span><span class="o">=</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;outputfile&quot;</span><span class="p">])</span>
+    <span class="n">save_as_locpalmtracer</span><span class="p">((</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">resultsh</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;outputfile&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fit terminé et résultats sauvegardés. Fin de la fonction.&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Droits d'auteur 2025, Abdelghani Neuhaus.</p>
+  </div>
+
+  Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">thème</a>
+    fourni par <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

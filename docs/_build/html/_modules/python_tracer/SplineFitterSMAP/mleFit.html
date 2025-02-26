@@ -1,0 +1,247 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="fr" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>python_tracer.SplineFitterSMAP.mleFit &mdash; Documentation PythonTracer 2025</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=431bb043"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/translations.js?v=e6b791cb"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            PythonTracer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Rechercher docs" aria-label="Rechercher docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user.html">PythonTracer user guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../generated/modules.html">python_tracer</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PythonTracer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Code du module</a></li>
+      <li class="breadcrumb-item active">python_tracer.SplineFitterSMAP.mleFit</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Code source de python_tracer.SplineFitterSMAP.mleFit</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">ctypes</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pycuda.driver</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cuda</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pycuda.autoinit</span>  <span class="c1"># initialise CUDA, crée un contexte par défaut. Ne pas supprimer.</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">napari.utils.notifications</span><span class="w"> </span><span class="kn">import</span> <span class="n">show_info</span>
+
+<span class="c1"># Define constants from definitions.h</span>
+<span class="n">BSZ</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">NK</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">NV_PS</span> <span class="o">=</span> <span class="mi">5</span>
+
+<div class="viewcode-block" id="Dim3">
+<a class="viewcode-back" href="../../../generated/python_tracer.SplineFitterSMAP.html#python_tracer.SplineFitterSMAP.mleFit.Dim3">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Dim3</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Structure to define a 3D dimension for CUDA kernel launch. </span>
+<span class="sd">    Uses for kernel launch by setting DimBlock and DimGrid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint</span><span class="p">),</span>
+    <span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="mleFit_LM">
+<a class="viewcode-back" href="../../../generated/python_tracer.SplineFitterSMAP.html#python_tracer.SplineFitterSMAP.mleFit.mleFit_LM">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">mleFit_LM</span><span class="p">(</span><span class="n">imstack</span><span class="p">,</span> <span class="n">iterations</span><span class="p">,</span> <span class="n">fitpar</span><span class="p">,</span> <span class="n">varmap</span><span class="p">,</span> <span class="n">zstart</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    MLE fit using GPU adapted from https://github.com/jries/SMAP/blob/master/fit3Dcspline/source/GPUmleFit_LM_SingleChannel/GPUmleFit_LM/mexFunction.cpp</span>
+<span class="sd">    Args:</span>
+<span class="sd">        imstack (np.ndarray): 3D image stack</span>
+<span class="sd">        iterations (int): number of iterations</span>
+<span class="sd">        fitpar (np.ndarray): parameters</span>
+<span class="sd">        varmap (np.ndarray): variance map if sCMOS, else not used</span>
+<span class="sd">        zstart (float): starting z (depth) value</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Parameters_host (np.ndarray): parameters</span>
+<span class="sd">        CRLBs_host (np.ndarray): CRLBs</span>
+<span class="sd">        LogLike_host (np.ndarray): Log likelihood</span>
+<span class="sd">    </span>
+<span class="sd">    DLL compilation in Admin VISUAL STUDIO terminal:</span>
+<span class="sd">    nvcc -ccbin &quot;C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64&quot; -shared -o GPUmleFit.dll wrapper.cu GPUmleFit_LM_EMCCD.cu GPUmleFit_LM_sCMOS.cu -Xcompiler &quot;/MD&quot; -Xlinker &quot;/NODEFAULTLIB:LIBCMT&quot;</span>
+<span class="sd">    Requires Visual Studio 22 installed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">spline_xsize</span><span class="p">,</span> <span class="n">spline_ysize</span><span class="p">,</span> <span class="n">spline_zsize</span> <span class="o">=</span> <span class="n">fitpar</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">datasize</span> <span class="o">=</span> <span class="n">imstack</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">sz</span> <span class="o">=</span> <span class="n">datasize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="c1"># Allocate GPU memory for imstack (ROIs) and fitpar (PSF model)</span>
+    <span class="n">imstack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asfortranarray</span><span class="p">(</span><span class="n">imstack</span><span class="p">)</span>
+    <span class="n">imstack_device</span> <span class="o">=</span> <span class="n">cuda</span><span class="o">.</span><span class="n">mem_alloc</span><span class="p">(</span><span class="n">imstack</span><span class="o">.</span><span class="n">nbytes</span><span class="p">)</span> <span class="c1"># objet PyCUDA gérant la mémoire sur GPU</span>
+    <span class="n">cuda</span><span class="o">.</span><span class="n">memcpy_htod</span><span class="p">(</span><span class="n">imstack_device</span><span class="p">,</span> <span class="n">imstack</span><span class="p">)</span>
+    <span class="n">imstack_device_ptr</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">imstack_device</span><span class="p">))</span>
+
+    <span class="n">fitpar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asfortranarray</span><span class="p">(</span><span class="n">fitpar</span><span class="p">)</span>
+    <span class="n">fitpar_device</span> <span class="o">=</span> <span class="n">cuda</span><span class="o">.</span><span class="n">mem_alloc</span><span class="p">(</span><span class="n">fitpar</span><span class="o">.</span><span class="n">nbytes</span><span class="p">)</span>
+    <span class="n">cuda</span><span class="o">.</span><span class="n">memcpy_htod</span><span class="p">(</span><span class="n">fitpar_device</span><span class="p">,</span> <span class="n">fitpar</span><span class="p">)</span>
+    <span class="n">fitpar_device_ptr</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">fitpar_device</span><span class="p">))</span>
+
+
+    <span class="c1"># GPU buffers for results</span>
+    <span class="n">Nfitraw</span> <span class="o">=</span> <span class="n">imstack</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">NV_PS</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">Parameters_dev</span> <span class="o">=</span> <span class="n">cuda</span><span class="o">.</span><span class="n">mem_alloc</span><span class="p">((</span><span class="n">Nfitraw</span><span class="o">*</span><span class="p">(</span><span class="n">NV_PS</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># float32 =&gt; 4 octets</span>
+    <span class="n">CRLBs_dev</span>      <span class="o">=</span> <span class="n">cuda</span><span class="o">.</span><span class="n">mem_alloc</span><span class="p">((</span><span class="n">Nfitraw</span><span class="o">*</span><span class="n">NV_PS</span><span class="p">)</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">LogLike_dev</span>    <span class="o">=</span> <span class="n">cuda</span><span class="o">.</span><span class="n">mem_alloc</span><span class="p">(</span><span class="n">Nfitraw</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">Parameters_ptr</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">Parameters_dev</span><span class="p">))</span>
+    <span class="n">CRLBs_ptr</span>      <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">CRLBs_dev</span><span class="p">))</span>
+    <span class="n">LogLike_ptr</span>    <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">LogLike_dev</span><span class="p">))</span>
+
+    <span class="c1"># DLL path</span>
+    <span class="n">mydll</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cdll</span><span class="o">.</span><span class="n">LoadLibrary</span><span class="p">(</span><span class="s2">&quot;./python_tracer/utils/GPUmleFit.dll&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Wrapper function for the kernel</span>
+    <span class="n">mydll</span><span class="o">.</span><span class="n">kernel_splineMLEFit_z_EMCCD_wrapper</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">Dim3</span><span class="p">,</span>
+        <span class="n">Dim3</span><span class="p">,</span>
+        <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span>
+        <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span>
+        <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span>
+        <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span>
+        <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span>
+        <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span>
+        <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span>
+        <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span>
+        <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span>
+        <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">,</span>
+        <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">,</span>
+        <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span>
+    <span class="p">]</span>
+    <span class="n">mydll</span><span class="o">.</span><span class="n">kernel_splineMLEFit_z_EMCCD_wrapper</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+    <span class="c1"># Initialize the grid and block dimensions </span>
+    <span class="n">dimGrid</span> <span class="o">=</span> <span class="n">Dim3</span><span class="p">(((</span><span class="n">Nfitraw</span> <span class="o">+</span> <span class="n">BSZ</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">BSZ</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>    
+    <span class="n">dimBlock</span> <span class="o">=</span> <span class="n">Dim3</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fitting with cspline&quot;</span><span class="p">)</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">mydll</span><span class="o">.</span><span class="n">kernel_splineMLEFit_z_EMCCD_wrapper</span><span class="p">(</span>
+            <span class="n">dimGrid</span><span class="p">,</span>
+            <span class="n">dimBlock</span><span class="p">,</span>
+            <span class="n">imstack_device_ptr</span><span class="p">,</span>
+            <span class="n">fitpar_device_ptr</span><span class="p">,</span>
+            <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">spline_xsize</span><span class="p">),</span>
+            <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">spline_ysize</span><span class="p">),</span>
+            <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">spline_zsize</span><span class="p">),</span>
+            <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">sz</span><span class="p">),</span>
+            <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">iterations</span><span class="p">),</span>
+            <span class="n">Parameters_ptr</span><span class="p">,</span>
+            <span class="n">CRLBs_ptr</span><span class="p">,</span>
+            <span class="n">LogLike_ptr</span><span class="p">,</span>
+            <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">zstart</span><span class="p">),</span>   <span class="c1"># zstart = float Python</span>
+            <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">Nfitraw</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error during function call:&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+        
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fitting completed in </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># GPU to CPU</span>
+    <span class="n">Parameters_host</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">Nfitraw</span><span class="p">,</span> <span class="n">NV_PS</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+    <span class="n">CRLBs_host</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">Nfitraw</span><span class="p">,</span> <span class="n">NV_PS</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+    <span class="n">LogLike_host</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">Nfitraw</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+    <span class="n">cuda</span><span class="o">.</span><span class="n">memcpy_dtoh</span><span class="p">(</span><span class="n">Parameters_host</span><span class="p">,</span> <span class="n">Parameters_dev</span><span class="p">)</span>
+    <span class="n">cuda</span><span class="o">.</span><span class="n">memcpy_dtoh</span><span class="p">(</span><span class="n">CRLBs_host</span><span class="p">,</span> <span class="n">CRLBs_dev</span><span class="p">)</span>
+    <span class="n">cuda</span><span class="o">.</span><span class="n">memcpy_dtoh</span><span class="p">(</span><span class="n">LogLike_host</span><span class="p">,</span> <span class="n">LogLike_dev</span><span class="p">)</span>
+
+    <span class="n">show_info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of localizations: </span><span class="si">{</span><span class="n">Parameters_host</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Free GPU memory</span>
+    <span class="n">imstack_device</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+    <span class="n">fitpar_device</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+    <span class="n">Parameters_dev</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+    <span class="n">CRLBs_dev</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+    <span class="n">LogLike_dev</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">Parameters_host</span><span class="p">,</span> <span class="n">CRLBs_host</span><span class="p">,</span> <span class="n">LogLike_host</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Droits d'auteur 2025, Abdelghani Neuhaus.</p>
+  </div>
+
+  Compilé avec <a href="https://www.sphinx-doc.org/">Sphinx</a> en utilisant un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">thème</a>
+    fourni par <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,207 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PythonTracer user guide &mdash; PythonTracer 2025 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=cb975c41"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="python_tracer" href="generated/modules.html" />
+    <link rel="prev" title="PythonTracer documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PythonTracer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PythonTracer user guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#install">Install</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-download-the-repository-from-github">Step 1 : Download the repository from GitHub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-installing-python">Step 2 : Installing Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3-installing-cuda-toolkit-if-not-already-done">Step 3 : Installing CUDA Toolkit (if not already done)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-creating-a-virtual-environment-optional">Step 4 : Creating a virtual environment (optional)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-5-installing-pythontracer">Step 5 : Installing PythonTracer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-6-lauching-pythontracer">Step 6 : Lauching PythonTracer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#faq">FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="generated/modules.html">python_tracer</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PythonTracer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">PythonTracer user guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/user.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pythontracer-user-guide">
+<h1>PythonTracer user guide<a class="headerlink" href="#pythontracer-user-guide" title="Link to this heading"></a></h1>
+<section id="install">
+<h2>Install<a class="headerlink" href="#install" title="Link to this heading"></a></h2>
+<p>This guide will help you download PythonTracer step by step.</p>
+<section id="step-1-download-the-repository-from-github">
+<h3>Step 1 : Download the repository from GitHub<a class="headerlink" href="#step-1-download-the-repository-from-github" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Go to <a class="reference external" href="https://github.com/abdelneuhaus/PythonTracer">GitHub project page</a>.</p></li>
+<li><p>Click on <strong>Code</strong> (green button).</p></li>
+<li><p>Choose <strong>Download ZIP</strong> to download locally the files into your computer.</p></li>
+<li><p>Extract files in an easily accessible directory (for example, <code class="code highlight console docutils literal highlight-console"><span class="go">C:python_tracer</span></code>).</p></li>
+</ol>
+</section>
+<section id="step-2-installing-python">
+<h3>Step 2 : Installing Python<a class="headerlink" href="#step-2-installing-python" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Download Python <strong>3.13</strong> from the <a class="reference external" href="https://www.python.org/downloads/">official website</a>.</p></li>
+<li><p>During the install, be sure to check the <strong>Add Python to PATH</strong> option.</p></li>
+<li><p>Once installed, verify that Python works:</p>
+<ul class="simple">
+<li><p>Open a powershell or command terminal (<code class="code highlight console docutils literal highlight-console"><span class="go">PowerShell</span></code> in Windows).</p></li>
+<li><p>Type <code class="code highlight console docutils literal highlight-console"><span class="go">python --version</span></code> and press <strong>Entrée</strong></p></li>
+</ul>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You should see your Python version (<code class="code highlight console docutils literal highlight-console"><span class="go">Python 3.x.x</span></code>).</p>
+</div>
+</section>
+<section id="step-3-installing-cuda-toolkit-if-not-already-done">
+<h3>Step 3 : Installing CUDA Toolkit (if not already done)<a class="headerlink" href="#step-3-installing-cuda-toolkit-if-not-already-done" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Download CUDA Toolkit <strong>12.6 or above</strong> from the <a class="reference external" href="https://developer.nvidia.com/cuda-12-6-0-download-archive">official website</a>.</p></li>
+<li><p>Launch the install.</p></li>
+<li><p>Once installed, check that CUDA is correclty working:</p>
+<ul class="simple">
+<li><p>Open a powershell or command terminal (<code class="code highlight console docutils literal highlight-console"><span class="go">PowerShell</span></code> in Windows).</p></li>
+<li><p>Type <code class="code highlight console docutils literal highlight-console"><span class="go">nvcc --version</span></code> and press <strong>Entrée</strong></p></li>
+</ul>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You should see your CUDA version (<code class="code highlight console docutils literal highlight-console"><span class="go">Cuda compilation tools, release 12.x, V12.x.x</span></code>).</p>
+</div>
+</section>
+<section id="step-4-creating-a-virtual-environment-optional">
+<h3>Step 4 : Creating a virtual environment (optional)<a class="headerlink" href="#step-4-creating-a-virtual-environment-optional" title="Link to this heading"></a></h3>
+<p>A virtual environment allows to handle project dependencies in an isolated manner.</p>
+<ol class="arabic simple">
+<li><p>Open a powershell or command terminal (<code class="code highlight console docutils literal highlight-console"><span class="go">PowerShell</span></code> in Windows) and go to the directory where you have extracted the files (for example, type:console:<cite>cd C:\palm_tracer</cite>).</p></li>
+<li><p>Then, create the virtual environment by typing in the powershell <code class="code highlight console docutils literal highlight-console"><span class="go">python -m venv venv</span></code></p></li>
+<li><p>Activate the virtual environment with <code class="code highlight console docutils literal highlight-console"><span class="go">.venvScriptsactivate</span></code></p></li>
+<li><p>You should now see <code class="code highlight console docutils literal highlight-console"><span class="gp gp-VirtualEnv">(venv)</span></code> before the path in your Powershell, meaning the virtual environment is activated.</p></li>
+</ol>
+</section>
+<section id="step-5-installing-pythontracer">
+<h3>Step 5 : Installing PythonTracer<a class="headerlink" href="#step-5-installing-pythontracer" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Open a powershell or command terminal (<code class="code highlight console docutils literal highlight-console"><span class="go">PowerShell</span></code> in Windows) and go to the directory where you have extracted the files (for example, type:console:<cite>cd C:\palm_tracer</cite>).</p></li>
+<li><p>Be sure that the virtual environment is activated if you are using one.</p></li>
+<li><p>Instal required dependencies by typing : <code class="code highlight console docutils literal highlight-console"><span class="go">python -m pip install requirements.txt</span></code></p></li>
+</ol>
+</section>
+<section id="step-6-lauching-pythontracer">
+<h3>Step 6 : Lauching PythonTracer<a class="headerlink" href="#step-6-lauching-pythontracer" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Open a powershell or command terminal (<code class="code highlight console docutils literal highlight-console"><span class="go">PowerShell</span></code> in Windows) and go to the directory where you have extracted the files (for example, type:console:<cite>cd C:\palm_tracer</cite>).</p></li>
+<li><p>Be sure that the virtual environment is activated if you are using one.</p></li>
+<li><p>Launch <code class="code highlight console docutils literal highlight-console"><span class="go">PythonTracer</span></code> by typing : <code class="code highlight console docutils literal highlight-console"><span class="go">python main.py</span></code></p></li>
+</ol>
+<p>it’s done ! 🎉 You have installed and setup successfully PythonTracer.</p>
+</section>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+</section>
+<section id="faq">
+<h2>FAQ<a class="headerlink" href="#faq" title="Link to this heading"></a></h2>
+<p><strong>1. Why using a virtual environment?</strong>
+To avoid conflicts between dependencies versions of different projects.</p>
+<p><strong>2. And if `pip install` is not working?</strong>
+That means that Python is not correclty installed. Be sure to have checked the <cite>add to PATH</cite> option during the install.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="PythonTracer documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="generated/modules.html" class="btn btn-neutral float-right" title="python_tracer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Abdelghani Neuhaus.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
