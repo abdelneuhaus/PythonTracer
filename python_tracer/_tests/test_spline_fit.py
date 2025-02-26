@@ -11,7 +11,7 @@ from python_tracer.SplineFitterSMAP import gaussian_filter
 from python_tracer.SplineFitterSMAP import filter2
 from python_tracer.SplineFitterSMAP import difference_of_gaussians
 from python_tracer.SplineFitterSMAP import maximumfindcall
-from python_tracer.utils.libs import spline
+# from python_tracer.utils.libs import spline
 
 ##################################################
 def test_set_parameters():
