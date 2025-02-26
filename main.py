@@ -18,7 +18,7 @@ from python_tracer.Fitting2D.parse_loc import read_locPALMTracer
 from python_tracer.Fitting2D.parse_track import read_trcPALMTracer
 from python_tracer.SplineFitterSMAP.preview_splinefitter import previews_splinefitter
 from python_tracer.SplineFitterSMAP.set_parameters import set_parameters
-# from python_tracer.SplineFitterSMAP.cspline_fitter import cspline_fitter
+from python_tracer.SplineFitterSMAP.cspline_fitter import cspline_fitter
 from python_tracer.SplineFitterSMAP.cspline_fitter_dask import cspline_fitter_dask
 from python_tracer.utils.simulate_DECODE_stack import simulate_DECODE_stack
 from python_tracer.utils.PreviewCheckButton import PreviewCheckButton
@@ -159,7 +159,7 @@ def run_spline_fitter():
             show_info(f'Default parameters used. Run Preview once.')
             parameters = set_parameters(path_stack, mat_file, 498, 0.12, 1.2, 15, 13, parameters['outputfile'], 160)
         start_time = time.time()
-        cspline_fitter_dask(parameters)
+        cspline_fitter(parameters)
         show_info(f"Fitting completed in {np.round(time.time() - start_time, 3)} seconds")
     else:
         show_info(f'Load both the stack and the PSF model first please.')

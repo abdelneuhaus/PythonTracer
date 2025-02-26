@@ -21,8 +21,8 @@ def fit_spline(imstack, peakcoordinates, parameters, varstack):
 
     results = np.zeros((imstack.shape[2], 12))
     results[:, 0] = peakcoordinates[:, 2]
-    results[:, 1] = param_cspline[:, 0] - parameters['dx'] + peakcoordinates[:, 0]  # x
-    results[:, 2] = param_cspline[:, 1] - parameters['dx'] + peakcoordinates[:, 1] # y
+    results[:, 1] = param_cspline[:, 1] - parameters['dx'] + peakcoordinates[:, 0]  # x
+    results[:, 2] = param_cspline[:, 0] - parameters['dx'] + peakcoordinates[:, 1] # y
     results[:, 3] = (param_cspline[:, 4] - parameters['z0']) * parameters['dz'] # z
     results[:, 4:6] = param_cspline[:, 2:4] # photons, background
     results[:, 6:8] = np.real(np.sqrt(crlbs[:, [1, 0]])) # x, y CRLBs
