@@ -1,5 +1,5 @@
-python\_tracer package
-======================
+PythonTracer API
+========================
 
 Subpackages
 -----------

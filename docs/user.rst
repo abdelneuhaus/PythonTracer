@@ -79,9 +79,6 @@ Step 6 : Lauching PythonTracer
 
 it's done ! 🎉 You have installed and setup successfully PythonTracer.
 
-Usage
------------
-
 
 FAQ
 ---

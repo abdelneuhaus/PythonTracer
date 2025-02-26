@@ -33,11 +33,11 @@ seaborn
 scikit-learn
 tqdm
 pyqt5
-# tensorboard
-# cmake         # Pour compiler spline (module decode)
-# ninja         # Pour compiler spline (module decode)
-# bump2version
-# pybind11
+tensorboard
+cmake         # Pour compiler spline (module decode)
+ninja         # Pour compiler spline (module decode)
+bump2version
+pybind11
 
 # pytorch
 # --index-url https://download.pytorch.org/whl/cu126
