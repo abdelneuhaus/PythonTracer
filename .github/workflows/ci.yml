@@ -98,9 +98,9 @@ jobs:
       # Génération de la documentation
       - name: Build documentation
         run: |
-          sphinx-apidoc -o python_tracer/docs/generated ./python_tracer  # Adapter au bon chemin
+          sphinx-apidoc -o python_tracer/docs/generated ./python_tracer
           sphinx-build -b html python_tracer/docs/ python_tracer/docs/_build/html
-
+          
       # Préparation des GitHub Pages.
       - name: Setup Pages
         uses: actions/configure-pages@v5
