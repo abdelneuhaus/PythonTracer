@@ -17,27 +17,27 @@ sphinx-rtd-theme
 ansi2html     # Convertisseur ANSI vers HTML
 
 # Dépendances de python-tracer installées avec pip
-tifffile
-matplotlib
-scikit-image
-scipy
-opencv-python
-dask
-dask_image
-napari
-deprecated
-h5py
-line_profiler
-pyyaml
-seaborn
-scikit-learn
-tqdm
-pyqt5
-tensorboard
-cmake         # Pour compiler spline (module decode)
-ninja         # Pour compiler spline (module decode)
-bump2version
-pybind11
+# tifffile
+# matplotlib
+# scikit-image
+# scipy
+# opencv-python
+# dask
+# dask_image
+# napari
+# deprecated
+# h5py
+# line_profiler
+# pyyaml
+# seaborn
+# scikit-learn
+# tqdm
+# pyqt5
+# tensorboard
+# cmake         # Pour compiler spline (module decode)
+# ninja         # Pour compiler spline (module decode)
+# bump2version
+# pybind11
 
 # pytorch
 # --index-url https://download.pytorch.org/whl/cu126
