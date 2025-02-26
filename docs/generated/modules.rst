@@ -1,5 +1,5 @@
-python_tracer
-=============
+PythonTracer API Reference
+==========================
 
 .. toctree::
    :maxdepth: 4
