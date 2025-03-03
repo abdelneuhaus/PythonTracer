@@ -11,6 +11,7 @@ from python_tracer.SplineFitterSMAP import gaussian_filter
 from python_tracer.SplineFitterSMAP import filter2
 from python_tracer.SplineFitterSMAP import difference_of_gaussians
 from python_tracer.SplineFitterSMAP import maximumfindcall
+from python_tracer.utils.simulate_DECODE_stack import simulate_DECODE_stack
 from python_tracer.utils.libs import spline
 
 ##################################################
@@ -143,3 +144,27 @@ def test_loadmat_scipy():
 
 
 ##################################################
+def test_simulation():
+    """
+    Test the spline library by using the simulation function
+    """
+    try:
+        simulate_DECODE_stack("./calib.mat",
+                            498, 
+                            0.012, 
+                            300, 
+                            110, 
+                            0.9, 
+                            74.4, 
+                            0.002, 
+                            100, 
+                            50,
+                            1000,
+                            1,
+                            10000,
+                            2500,
+                            10,
+                            2, 
+                            "./output")
+    except Exception as e:
+        assert False, f"Error in the Spline function test: {e}"
