@@ -24,7 +24,7 @@ jobs:
   Test:
     name: Tests on ${{ matrix.platform }} for Python ${{ matrix.python-version }}
     runs-on: ${{ matrix.platform }} # Environnement (OS) de la routine
-    timeout-minutes: 30             # Limite la durée de la routine
+    timeout-minutes: 90             # Limite la durée de la routine
     strategy:
       fail-fast: false              # Continue les autres routines si une matrice échoue.
       matrix:                       
