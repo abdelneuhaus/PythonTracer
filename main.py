@@ -177,7 +177,6 @@ def z_colored_vizualisation():
             engine='python',     # parfois utile pour gérer les espaces multiples
             header=0             # indique que la première ligne est l’en-tête
         )
-
         x = df['x_nm'].values
         y = df['y_nm'].values
         z = df['z_nm'].values
