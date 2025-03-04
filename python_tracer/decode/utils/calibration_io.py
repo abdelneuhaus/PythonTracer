@@ -26,7 +26,7 @@ class SMAPSplineCoefficient:
         psf = (psf - psf.min())  # Recalibrer après clipping
         psf = (psf / psf.max() * 65535).astype('uint16')
         psf = psf.transpose(2, 0, 1)
-        tifffile.imwrite("C:/Git/PythonTracer/mean_PSF.tif", psf, dtype='uint16')
+        tifffile.imwrite("mean_PSF.tif", psf, dtype='uint16')
 
 
         self.coeff = torch.from_numpy(self.calib_mat.cspline.coeff)
