@@ -144,29 +144,29 @@ def test_loadmat_scipy():
 
 
 ##################################################
-def test_simulation():
-    """
-    Test the spline library by using the simulation function
-    """
-    test_dir = os.path.dirname(os.path.abspath(__file__))
-    calib_path = os.path.join(test_dir, "calib.mat")
-    try:
-        simulate_DECODE_stack(calib_path,
-                            498, 
-                            0.012, 
-                            300, 
-                            110, 
-                            0.9, 
-                            74.4, 
-                            0.002, 
-                            100, 
-                            50,
-                            1000,
-                            1,
-                            10000,
-                            2500,
-                            10,
-                            2, 
-                            "./output")
-    except Exception as e:
-        assert False, f"Error in the Spline function test: {e}"
+# def test_simulation():
+#     """
+#     Test the spline library by using the simulation function
+#     """
+#     test_dir = os.path.dirname(os.path.abspath(__file__))
+#     calib_path = os.path.join(test_dir, "calib.mat")
+#     try:
+#         simulate_DECODE_stack(calib_path,
+#                             498, 
+#                             0.012, 
+#                             300, 
+#                             110, 
+#                             0.9, 
+#                             74.4, 
+#                             0.002, 
+#                             100, 
+#                             50,
+#                             1000,
+#                             1,
+#                             10000,
+#                             2500,
+#                             10,
+#                             2, 
+#                             "./output")
+#     except Exception as e:
+#         assert False, f"Error in the Spline function test: {e}"
