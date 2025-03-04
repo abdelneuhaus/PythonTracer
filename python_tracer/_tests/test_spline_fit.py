@@ -148,8 +148,10 @@ def test_simulation():
     """
     Test the spline library by using the simulation function
     """
+    test_dir = os.path.dirname(os.path.abspath(__file__))
+    calib_path = os.path.join(test_dir, "calib.mat")
     try:
-        simulate_DECODE_stack("./calib.mat",
+        simulate_DECODE_stack(calib_path,
                             498, 
                             0.012, 
                             300, 
