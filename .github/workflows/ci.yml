@@ -9,7 +9,6 @@ on:
       - main
   workflow_dispatch:  # Permet d'exécuter le workflow manuellement depuis l'onglet Actions
 
-
 permissions:
   contents: read
   pages: write
@@ -18,7 +17,6 @@ permissions:
 concurrency:
   group: "pages"
   cancel-in-progress: false
-
 
 jobs:
   Test:
@@ -46,12 +44,17 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      # Installation de CUDA
+      # Installation de CUDA avec sous-packages sélectionnés pour éviter le bug
       - name: Install Cuda for DLLs
         uses: Jimver/cuda-toolkit@v0.2.21
         id: cuda-toolkit
         with:
           cuda: '12.6.0'
+          sub-packages: '["nvcc","cudart","thrust"]'
+
+      # Ajout de CUDA au PATH pour éviter les problèmes de détection de nvcc
+      - name: Add CUDA to PATH
+        run: echo "$env:CUDA_PATH\bin" >> $env:GITHUB_PATH
 
       # Installation des dépendances du projet
       - name: Install dependencies
@@ -59,7 +62,6 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
           pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
-        # pip install pycuda
 
       # Lancement des tests avec pytest
       - name: Run tests with pytest

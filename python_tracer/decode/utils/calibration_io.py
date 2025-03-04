@@ -1,8 +1,8 @@
 import scipy.io as sio
+import numpy as np
 import torch
 import tifffile
 import python_tracer.decode.simulation.psf_kernel as psf_kernel
-
 
 class SMAPSplineCoefficient:
     """Wrapper class as an interface for MATLAB Spline calibration data."""
@@ -16,11 +16,18 @@ class SMAPSplineCoefficient:
         self.calib_mat = sio.loadmat(self.calib_file, struct_as_record=False, squeeze_me=True)['SXY']
 
         # Sauvegarde en TIF 16 bits
-        # psf = torch.from_numpy(self.calib_mat.PSF).numpy()
-        # psf = psf - psf.min()  # Décalage pour que le min soit à 0
-        # psf = (psf / psf.max() * 65535).astype('uint16')
-        # psf = psf.transpose(2, 0, 1)
-        # tifffile.imwrite("mean_PSF.tif", psf, dtype='uint16')
+        psf = torch.from_numpy(self.calib_mat.PSF).numpy()
+        psf = psf - psf.min()
+        mean = psf.mean()
+        std = psf.std()
+        lower = mean - 3 * std
+        upper = mean + 3 * std
+        psf = np.clip(psf, lower, upper)
+        psf = (psf - psf.min())  # Recalibrer après clipping
+        psf = (psf / psf.max() * 65535).astype('uint16')
+        psf = psf.transpose(2, 0, 1)
+        tifffile.imwrite("C:/Git/PythonTracer/mean_PSF.tif", psf, dtype='uint16')
+
 
         self.coeff = torch.from_numpy(self.calib_mat.cspline.coeff)
         self.ref0 = (self.calib_mat.cspline.x0 - 1, self.calib_mat.cspline.x0 - 1, self.calib_mat.cspline.z0)
