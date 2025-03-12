@@ -130,7 +130,7 @@ def preview_before_localization(Offset=498,
                     PeakFilter=1.2, 
                     PeakCutoff=15, 
                     ROIFit=13, 
-                    PixelSize=160, 
+                    PixelSize=100, 
                     Preview_NFrames=1):
     if path_stack and mat_file:
         global parameters
@@ -148,6 +148,7 @@ def preview_before_localization(Offset=498,
         plt.close()
     else:
         show_info("Load stack AND PSF calibration.")
+    parameters = set_parameters(path_stack, mat_file, Offset, Conversion, PeakFilter, PeakCutoff, ROIFit, PixelSize)
     return parameters
 
 
@@ -157,7 +158,7 @@ def run_spline_fitter():
     if path_stack and mat_file:
         if parameters == None:
             show_info(f'Default parameters used. Run Preview once.')
-            parameters = set_parameters(path_stack, mat_file, 498, 0.12, 1.2, 15, 13, parameters['outputfile'], 160)
+            parameters = set_parameters(path_stack, mat_file, 498, 0.12, 1.2, 15, 13, parameters['outputfile'], 100)
         start_time = time.time()
         cspline_fitter(parameters)
         show_info(f"Fitting completed in {np.round(time.time() - start_time, 3)} seconds")
@@ -186,10 +187,10 @@ def z_colored_vizualisation():
         viewer.layers.clear()
         viewer.add_points(
             points_data,
-            size=20,
+            size=5,
             name='Locs',
             face_color=colors, 
-            edge_color='white'
+            edge_color=colors
         )
         viewer.dims.ndisplay = 3
     else:

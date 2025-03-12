@@ -72,5 +72,6 @@ def simulate_DECODE_stack(calib_file,
     tar_em, sim_frames, bg_frames = simulator.sample()
     sim_frames = sim_frames.cpu()
     sim_frames_16bits = sim_frames.numpy()[:nFrames,:,:].astype(np.uint16)
+    image_scaled = (sim_frames_16bits / sim_frames_16bits.max() * 65535).astype(np.uint16)
     output = outputname+".tif"
-    tiff.imwrite(output, sim_frames_16bits, dtype=np.uint16)
+    tiff.imwrite(output, image_scaled, dtype=np.uint16)

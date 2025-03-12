@@ -7,7 +7,6 @@ def set_parameters(stack_path,
                    peakfilter=1.2, 
                    peakcutoff=15, 
                    roifit=13, 
-                   outputfile='./outputSMAP.csv', 
                    pixelsize=160):
     """
     Set the parameters for the spline fitter. Some parameters are irrelevant for the spline fitter (raw translation of Matlab code).
